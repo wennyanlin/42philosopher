@@ -6,7 +6,7 @@
 /*   By: wlin <wlin@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 15:08:22 by wlin              #+#    #+#             */
-/*   Updated: 2024/04/24 17:29:44 by wlin             ###   ########.fr       */
+/*   Updated: 2024/04/24 23:35:10 by wlin             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,8 +34,11 @@ typedef	struct s_locks
 	unsigned int	count;
 }	t_locks;
 
+
+int	validate_args(int argc, char **argv);
 long	ft_atoi(const char *str);
 int		is_number(char *arg);
+
 
 #endif
 

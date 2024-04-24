@@ -6,7 +6,7 @@
 /*   By: wlin <wlin@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 17:03:09 by wlin              #+#    #+#             */
-/*   Updated: 2024/04/24 17:31:32 by wlin             ###   ########.fr       */
+/*   Updated: 2024/04/24 23:40:45 by wlin             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,11 +49,9 @@ int	is_number(char *arg)
 	int	i;
 
 	i = 0;
-	if (!arg)
-		return (FALSE);
 	while (arg[i])
 	{
-		if (arg[i] < 48 && arg[i] > 57)
+		if (arg[i] < '0' || arg[i] > '9')
 			return (FALSE);
 		i++;
 	}
@@ -66,9 +64,14 @@ int	validate_args(int argc, char **argv)
 
 	i = 1;
 	while (i < argc)
-		if (!is_number(argv[i]) || ft_atoi(argv[i]) >= MAX_INT
+	{
+		if (!argv[i])
+			return (FALSE);
+		if (!is_number(argv[i]) || ft_atoi(argv[i]) > MAX_INT
 				|| ft_atoi(argv[i]) <= 0)
-			return (EXIT_FAILURE);
-	reuturn (EXIT_SUCCESS);
+			return (FALSE);
+		i++;
+	}
+	return (TRUE);
 }
 

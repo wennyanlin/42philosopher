@@ -6,11 +6,16 @@
 /*   By: wlin <wlin@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 15:23:58 by wlin              #+#    #+#             */
-/*   Updated: 2024/04/24 17:37:28 by wlin             ###   ########.fr       */
+/*   Updated: 2024/04/24 23:42:26 by wlin             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
+
+void	write_error()
+{
+	printf("Error\n");
+}
 
 int	main(int argc, char **argv)
 {
@@ -18,12 +23,13 @@ int	main(int argc, char **argv)
 	// int	t_die;
 	// int	t_eat;
 	// int	t_sleep;
-
-	printf("ft_atoi: '%ld'\n", ft_atoi(" "));
-	printf("atoi: '%d'\n", atoi(" "));
-	// if (argc == 5)
-	// {
-	// 	validate_args(argc, argv);
-	// }
-	// return (0);
+	
+	if (argc == 5)
+	{
+		if (validate_args(argc, argv) == FALSE)
+			return (write_error(), 1);
+	}
+	else
+		write_error();
+	return (0);
 }
