@@ -6,7 +6,7 @@
 /*   By: wlin <wlin@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 15:23:58 by wlin              #+#    #+#             */
-/*   Updated: 2024/04/24 23:42:26 by wlin             ###   ########.fr       */
+/*   Updated: 2024/04/25 11:58:50 by wlin             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,15 +19,14 @@ void	write_error()
 
 int	main(int argc, char **argv)
 {
-	// int	n_philo;
-	// int	t_die;
-	// int	t_eat;
-	// int	t_sleep;
-	
-	if (argc == 5)
+	t_rule	rule;
+
+	if (argc == 5 || argc == 6)
 	{
 		if (validate_args(argc, argv) == FALSE)
-			return (write_error(), 1);
+			return (write_error(), EXIT_FAILURE);
+		get_dining_rules(argc, argv, &rule);
+		// start_dining();
 	}
 	else
 		write_error();
