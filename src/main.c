@@ -6,7 +6,7 @@
 /*   By: wlin <wlin@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 15:23:58 by wlin              #+#    #+#             */
-/*   Updated: 2024/04/25 11:58:50 by wlin             ###   ########.fr       */
+/*   Updated: 2024/04/25 12:03:19 by wlin             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ int	main(int argc, char **argv)
 		if (validate_args(argc, argv) == FALSE)
 			return (write_error(), EXIT_FAILURE);
 		get_dining_rules(argc, argv, &rule);
-		// start_dining();
+		start_dining();
 	}
 	else
 		write_error();
