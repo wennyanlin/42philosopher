@@ -10,23 +10,22 @@ void	get_dining_rules(int argc, char **args, t_rule *rule)
 		rule->n_time_to_eat = ft_atoi(args[5]);
 }
 
-void	routine(t_rule *rule)
+void	*routine(void *data)
 {
+	struct timeval	curr_time;
 	pthread_mutex_t	mutex;
-	int	i;
+	t_rule			*rule;
 
-	i = 0;
-	thread_mutex_init(&mutex, NULL);
-	while (i < rule->n_philo)
-	{
-		pthread_mutex_lock(&mutex);
-		usleep(rule->t_eat);
-		printf("%lu philo %d has tacken a fork\n", gettimeofday(), (i + 1));
-		pthread_mutex_unlock(&mutex);
-	}
+	rule = (t_rule *)data;
+	pthread_mutex_lock(&mutex);
+	gettimeofday(&curr_time, NULL);
+	printf("%d philo_%d has taken a fork\n", curr_time.tv_usec, rule->philo_id);
+	usleep(rule->t_eat);
+	pthread_mutex_unlock(&mutex);
+	return (EXIT_SUCCESS);
 }
 
-void	start_dining(t_rule *rule)
+int	start_dining(t_rule *rule)
 {
 	pthread_t	*thr;
 	int			i;
@@ -34,8 +33,17 @@ void	start_dining(t_rule *rule)
 	i = 0;
 	thr = malloc(sizeof(t_rule) * rule->n_philo);
 	if (!thr)
-		return (NULL);
+		return (EXIT_FAILURE);
 	while (i < rule->n_philo)
-		if (pthread_create(&thr[i++], NULL, &routine, NULL) != 0)
-			return (printf("Failed to create thread.\n"), NULL);
+	{
+		rule->philo_id = i + 1;
+		if (pthread_create(&thr[i], NULL, &routine, rule) != 0)
+		{
+			printf("Failed to create thread.\n");
+			return (EXIT_FAILURE);
+		}
+		pthread_join(thr[i], NULL);
+		i++;
+	}
+	return (EXIT_SUCCESS);
 }

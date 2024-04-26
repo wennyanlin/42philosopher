@@ -6,7 +6,7 @@
 /*   By: wlin <wlin@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 15:08:22 by wlin              #+#    #+#             */
-/*   Updated: 2024/04/25 16:30:59 by wlin             ###   ########.fr       */
+/*   Updated: 2024/04/26 13:54:09 by wlin             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 #include <stdio.h>
 #include <unistd.h>
 #include <pthread.h>
+#include <sys/time.h>
 
 # define NC	"\e[0m"
 # define YELLOW	"\e[33m"
@@ -34,6 +35,7 @@ typedef struct s_rule
 	int	t_eat;
 	int	t_sleep;
 	int	n_time_to_eat;
+	int	philo_id;
 }	t_rule;
 
 int	validate_args(int argc, char **argv);
@@ -41,6 +43,7 @@ long	ft_atoi(const char *str);
 int		is_number(char *arg);
 
 void	get_dining_rules(int argc, char **args, t_rule *rule);
+int		start_dining(t_rule *rule);
 
 
 #endif
