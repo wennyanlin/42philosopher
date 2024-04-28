@@ -6,13 +6,13 @@
 #    By: wlin <wlin@student.42.fr>                  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/04/24 14:59:21 by wlin              #+#    #+#              #
-#    Updated: 2024/04/25 11:34:48 by wlin             ###   ########.fr        #
+#    Updated: 2024/04/27 16:03:20 by wlin             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = philo
 CC := cc
-CFLAGS := -Wall -Wextra -Werror -pthread -g
+CFLAGS := -Wall -Wextra -Werror -pthread -fsanitize=thread -g
 SRC_DIR		:=	src
 
 SRC_FILES	:=	$(SRC_DIR)/main.c \
