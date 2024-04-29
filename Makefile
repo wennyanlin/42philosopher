@@ -6,7 +6,7 @@
 #    By: wlin <wlin@student.42.fr>                  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/04/24 14:59:21 by wlin              #+#    #+#              #
-#    Updated: 2024/04/27 16:03:20 by wlin             ###   ########.fr        #
+#    Updated: 2024/04/29 14:21:03 by wlin             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,6 +18,7 @@ SRC_DIR		:=	src
 SRC_FILES	:=	$(SRC_DIR)/main.c \
 				$(SRC_DIR)/input_validate.c \
 				$(SRC_DIR)/dining.c \
+				$(SRC_DIR)/routine.c \
 
 OBJ_FILES	=	$(SRC_FILES:.c=.o)
 DEP_FILES	=	$(OBJ_FILES:.o=.d)
