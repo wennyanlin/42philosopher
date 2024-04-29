@@ -6,7 +6,7 @@
 /*   By: wlin <wlin@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/29 13:53:52 by wlin              #+#    #+#             */
-/*   Updated: 2024/04/29 16:13:41 by wlin             ###   ########.fr       */
+/*   Updated: 2024/04/29 22:49:20 by wlin             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,16 +31,23 @@ void	ft_usleep(int millisec)
 
 void	ft_eating(t_rule *rule)
 {
-	long int	milisec;
+	long int	millisec;
 
 	// if (rule->philo_id % 2 != 0)
-	// 	usleep(100);
-	pthread_mutex_lock(rule->mutex);
-	milisec = ft_time();
-	printf("[%ld milisec] philo_%d has taken a fork\n", milisec, rule->philo_id);
+	// 	usleep(1);
+	pthread_mutex_lock(rule->left_fork);
+	millisec = ft_time();
+	printf("[%ld millisec] philo #%d has taken a left fork\n", millisec, rule->philo_id);
+	pthread_mutex_lock(rule->right_fork);
+	millisec = ft_time();
+	printf("[%ld millisec] philo #%d has taken a right fork\n", millisec, rule->philo_id);
 	ft_usleep(rule->t_eat);
-	pthread_mutex_unlock(rule->mutex);
-	printf("[%ld milisec] philo_%d dropped forks\n", milisec, rule->philo_id);
+	pthread_mutex_unlock(rule->right_fork);
+	millisec = ft_time();
+	printf("[%ld millisec] philo #%d dropped right fork\n", millisec, rule->philo_id);
+	pthread_mutex_unlock(rule->left_fork);
+	millisec = ft_time();
+	printf("[%ld millisec] philo #%d dropped left fork\n", millisec, rule->philo_id);
 }
 
 void	*routine(void *data)

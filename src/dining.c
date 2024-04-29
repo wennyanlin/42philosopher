@@ -6,7 +6,7 @@
 /*   By: wlin <wlin@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/29 14:17:19 by wlin              #+#    #+#             */
-/*   Updated: 2024/04/29 14:18:06 by wlin             ###   ########.fr       */
+/*   Updated: 2024/04/29 23:59:47 by wlin             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ void	get_dining_rules(int argc, char **args, t_rule *rule)
 		rule->n_time_to_eat = ft_atoi(args[5]);
 }
 
-t_rule	struct_copy(t_rule rule, int philo_id, pthread_mutex_t	*mutex)
+t_rule	struct_copy(t_rule rule, int philo_id, pthread_mutex_t *left_fork, pthread_mutex_t *right_fork)
 {
 	t_rule	philo;
 
@@ -33,7 +33,8 @@ t_rule	struct_copy(t_rule rule, int philo_id, pthread_mutex_t	*mutex)
 	philo.t_sleep = rule.t_sleep;
 	philo.n_time_to_eat = rule.n_time_to_eat; ///TODO: handle if this value is not set
 	philo.philo_id = philo_id;
-	philo.mutex = mutex;
+	philo.left_fork = left_fork;
+	philo.right_fork = right_fork;
 	return (philo);
 }
 
@@ -61,6 +62,7 @@ int	start_dining(t_rule *all_rule, int n_philo)
 	while (i < n_philo)
 	{
 		thr[i] = create_thread(all_rule, i);
+		printf("[%d millisec] philo #%d thread has created\n", ft_time(), i + 1);
 		i++;
 	}
 	i = 0;
