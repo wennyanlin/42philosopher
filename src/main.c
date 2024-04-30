@@ -6,7 +6,7 @@
 /*   By: wlin <wlin@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 15:23:58 by wlin              #+#    #+#             */
-/*   Updated: 2024/04/30 09:32:26 by wlin             ###   ########.fr       */
+/*   Updated: 2024/04/30 18:24:26 by wlin             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,13 +17,14 @@ void	write_error()
 	printf("Error\n");
 }
 
-pthread_mutex_t	create_fork()
-{
-	pthread_mutex_t	fork;
+// pthread_mutex_t	*create_fork()
+// {
+// 	pthread_mutex_t	*fork;
 
-	pthread_mutex_init(&fork, NULL);
-	return (fork);
-}
+// 	fork
+// 	pthread_mutex_init(fork, NULL);
+// 	return (fork);
+// }
 
 pthread_mutex_t *create_forks_array(int n_philos)
 {
@@ -35,28 +36,40 @@ pthread_mutex_t *create_forks_array(int n_philos)
 		return (NULL);
 	i = -1;
 	while (++i < n_philos)
-		forks_array[i] = create_fork();
+		pthread_mutex_init(&forks_array[i], NULL);
+	i = -1;
+	while (++i < n_philos)
+		printf("memory address: %p\n", &forks_array[i]);
 	return (forks_array);
 }
 
 t_rule	*get_all_philos_rules(t_rule rule)
 {
-	int		i;
-	t_rule	*all_rules;
+	int				i;
+	t_rule			*all_rules;
 	pthread_mutex_t	*forks_array;
+	pthread_mutex_t	*mutex;
 
 	i = -1;
 	all_rules = malloc(sizeof(t_rule) * rule.n_philo);
 	if (!all_rules)
 		return (NULL);
 	forks_array = create_forks_array(rule.n_philo);
+	mutex = malloc(sizeof(pthread_mutex_t));
+	if (!mutex)
+		return (NULL);
+	pthread_mutex_init(mutex, NULL);
 	while (++i < rule.n_philo)
 	{
+		all_rules[i].mutex_printf = mutex;
 		if (i == rule.n_philo - 1)
 			all_rules[i] = struct_copy(rule, i + 1, &forks_array[i], &forks_array[0]);
 		else
 			all_rules[i] = struct_copy(rule, i + 1, &forks_array[i], &forks_array[i + 1]);
 	}
+	i = -1;
+	while (++i < rule.n_philo)
+		printf("%p\n", all_rules[i].mutex_printf);
 	return (all_rules);
 }
 

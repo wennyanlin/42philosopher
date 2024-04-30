@@ -6,7 +6,7 @@
 /*   By: wlin <wlin@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/29 13:53:52 by wlin              #+#    #+#             */
-/*   Updated: 2024/04/29 22:49:20 by wlin             ###   ########.fr       */
+/*   Updated: 2024/04/30 18:30:39 by wlin             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,22 @@ void	ft_usleep(int millisec)
 	int	end;
 
 	end = ft_time() + millisec;
+	printf("END TIME: %d\n", end);
 	while (ft_time() < end)
 		usleep(200);
+}
+
+// void	ft_die(t_rule rule, long int millisec)
+// {
+// 	printf("[%ld millisec] philo #%d died\n", millisec, rule.philo_id);
+// 	return ;
+// }
+
+void	ft_sleeping_and_thinking(t_rule *rule)
+{
+	printf("[%d millisec] philo #%d is sleeping\n", ft_time(), rule->n_philo);
+	ft_usleep(rule->t_sleep);
+	printf("[%d millisec] philo #%d is thinking\n", ft_time(), rule->n_philo);
 }
 
 void	ft_eating(t_rule *rule)
@@ -34,27 +48,37 @@ void	ft_eating(t_rule *rule)
 	long int	millisec;
 
 	// if (rule->philo_id % 2 != 0)
-	// 	usleep(1);
+	//	usleep(1);
 	pthread_mutex_lock(rule->left_fork);
 	millisec = ft_time();
-	printf("[%ld millisec] philo #%d has taken a left fork\n", millisec, rule->philo_id);
-	pthread_mutex_lock(rule->right_fork);
-	millisec = ft_time();
-	printf("[%ld millisec] philo #%d has taken a right fork\n", millisec, rule->philo_id);
-	ft_usleep(rule->t_eat);
+	// pthread_mutex_lock(rule->mutex_printf);
+	printf("[%ld millisec] philo #%d has taken a left fork: %p\n", millisec, rule->philo_id, rule->left_fork);
+	// pthread_mutex_lock(rule->mutex_printf);
 	pthread_mutex_unlock(rule->right_fork);
 	millisec = ft_time();
-	printf("[%ld millisec] philo #%d dropped right fork\n", millisec, rule->philo_id);
+	rule->t_start_eating = millisec;
+	// pthread_mutex_lock(rule->mutex_printf);
+	printf("[%ld millisec] philo #%d has taken a right fork: %p\n", millisec, rule->philo_id, rule->right_fork);
+	printf("[%ld millisec] philo #%d is eating\n", millisec, rule->philo_id);
+	// pthread_mutex_unlock(rule->mutex_printf);
+	ft_usleep(10000);
+	printf("Despues de dormir %d\n", ft_time());
+	pthread_mutex_unlock(rule->right_fork);
+	millisec = ft_time();
 	pthread_mutex_unlock(rule->left_fork);
 	millisec = ft_time();
-	printf("[%ld millisec] philo #%d dropped left fork\n", millisec, rule->philo_id);
+	rule->t_fin_eating = millisec;
 }
 
 void	*routine(void *data)
 {
 	t_rule			*rule;
 
-	rule = (t_rule *)data;
-	ft_eating(rule);
+	while (1)
+	{
+		rule = (t_rule *)data;
+		ft_eating(rule);
+		// ft_sleeping_and_thinking(rule);
+	}
 	return (EXIT_SUCCESS);
 }

@@ -6,7 +6,7 @@
 /*   By: wlin <wlin@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 15:08:22 by wlin              #+#    #+#             */
-/*   Updated: 2024/04/29 22:39:09 by wlin             ###   ########.fr       */
+/*   Updated: 2024/04/30 16:50:01 by wlin             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,8 +36,12 @@ typedef struct s_rule
 	int	t_sleep;
 	int	n_time_to_eat;
 	int	philo_id;
+	int	t_start_routine;
+	int	t_start_eating;
+	int	t_fin_eating;
 	pthread_mutex_t	*left_fork;
 	pthread_mutex_t	*right_fork;
+	pthread_mutex_t	*mutex_printf;
 
 }	t_rule;
 

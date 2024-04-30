@@ -6,7 +6,7 @@
 /*   By: wlin <wlin@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/29 14:17:19 by wlin              #+#    #+#             */
-/*   Updated: 2024/04/29 23:59:47 by wlin             ###   ########.fr       */
+/*   Updated: 2024/04/30 17:10:36 by wlin             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 
 void	get_dining_rules(int argc, char **args, t_rule *rule)
 {
-
 	rule->n_philo = ft_atoi(args[1]);
 	rule->t_die = ft_atoi(args[2]);
 	rule->t_eat = ft_atoi(args[3]);
@@ -25,7 +24,7 @@ void	get_dining_rules(int argc, char **args, t_rule *rule)
 
 t_rule	struct_copy(t_rule rule, int philo_id, pthread_mutex_t *left_fork, pthread_mutex_t *right_fork)
 {
-	t_rule	philo;
+	t_rule			philo;
 
 	philo.n_philo = rule.n_philo;
 	philo.t_die = rule.t_die;
@@ -62,7 +61,7 @@ int	start_dining(t_rule *all_rule, int n_philo)
 	while (i < n_philo)
 	{
 		thr[i] = create_thread(all_rule, i);
-		printf("[%d millisec] philo #%d thread has created\n", ft_time(), i + 1);
+		all_rule->t_start_routine = ft_time();
 		i++;
 	}
 	i = 0;
