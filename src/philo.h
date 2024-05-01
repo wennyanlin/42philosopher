@@ -6,7 +6,7 @@
 /*   By: wlin <wlin@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 15:08:22 by wlin              #+#    #+#             */
-/*   Updated: 2024/04/30 16:50:01 by wlin             ###   ########.fr       */
+/*   Updated: 2024/05/01 19:46:04 by wlin             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ typedef struct s_rule
 	int	t_fin_eating;
 	pthread_mutex_t	*left_fork;
 	pthread_mutex_t	*right_fork;
-	pthread_mutex_t	*mutex_printf;
+	pthread_mutex_t	*mx_printf;
 
 }	t_rule;
 
@@ -51,7 +51,7 @@ int		is_number(char *arg);
 
 void	get_dining_rules(int argc, char **args, t_rule *rule);
 int		start_dining(t_rule *all_rules, int n_philo);
-t_rule	struct_copy(t_rule rule, int philo_id, pthread_mutex_t *left_fork, pthread_mutex_t *right_fork);
+t_rule	struct_copy(t_rule rule, int philo_id, pthread_mutex_t *left_fork, pthread_mutex_t *right_fork, pthread_mutex_t *mx_printf);
 void	*routine(void *data);
 void	ft_eating(t_rule *rule);
 int		ft_time(void);

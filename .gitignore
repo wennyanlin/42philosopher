@@ -3,3 +3,4 @@ philo
 a.out
 *.o
 *.d
+.DS_Store
