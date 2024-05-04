@@ -6,7 +6,7 @@
 /*   By: wlin <wlin@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/29 14:17:19 by wlin              #+#    #+#             */
-/*   Updated: 2024/05/01 19:46:08 by wlin             ###   ########.fr       */
+/*   Updated: 2024/05/04 20:23:32 by wlin             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void	get_dining_rules(int argc, char **args, t_rule *rule)
 		rule->n_time_to_eat = ft_atoi(args[5]);
 }
 
-t_rule	struct_copy(t_rule rule, int philo_id, pthread_mutex_t *left_fork, pthread_mutex_t *right_fork, pthread_mutex_t *mx_printf)
+t_rule	struct_copy(t_rule rule, int philo_id, pthread_mutex_t *left_fork, pthread_mutex_t *right_fork, pthread_mutex_t *mx_printf, pthread_mutex_t *mx_die)
 {
 	t_rule			philo;
 
@@ -35,6 +35,7 @@ t_rule	struct_copy(t_rule rule, int philo_id, pthread_mutex_t *left_fork, pthrea
 	philo.left_fork = left_fork;
 	philo.right_fork = right_fork;
 	philo.mx_printf = mx_printf;
+	philo.mx_die = mx_die;
 	return (philo);
 }
 
@@ -61,14 +62,15 @@ int	start_dining(t_rule *all_rule, int n_philo)
 		return (EXIT_FAILURE);
 	while (i < n_philo)
 	{
+		all_rule[i].t_start_eating = ft_time();
 		thr[i] = create_thread(all_rule, i);
-		all_rule->t_start_routine = ft_time();
 		i++;
 	}
-	i = 0;
-	while (i < n_philo)
-	{
-		pthread_join(thr[i++], NULL);
-	}
+	ft_die(all_rule, thr);
+	// i = 0;
+	// while (i < n_philo)
+	// {
+	// 	pthread_join(thr[i++], NULL);
+	// }
 	return (EXIT_SUCCESS);
 }

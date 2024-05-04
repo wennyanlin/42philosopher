@@ -6,7 +6,7 @@
 /*   By: wlin <wlin@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 15:08:22 by wlin              #+#    #+#             */
-/*   Updated: 2024/05/01 19:46:04 by wlin             ###   ########.fr       */
+/*   Updated: 2024/05/04 19:56:03 by wlin             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,20 +42,19 @@ typedef struct s_rule
 	pthread_mutex_t	*left_fork;
 	pthread_mutex_t	*right_fork;
 	pthread_mutex_t	*mx_printf;
+	pthread_mutex_t	*mx_die;
 
 }	t_rule;
 
 int		validate_args(int argc, char **argv);
 long	ft_atoi(const char *str);
 int		is_number(char *arg);
-
 void	get_dining_rules(int argc, char **args, t_rule *rule);
 int		start_dining(t_rule *all_rules, int n_philo);
-t_rule	struct_copy(t_rule rule, int philo_id, pthread_mutex_t *left_fork, pthread_mutex_t *right_fork, pthread_mutex_t *mx_printf);
+t_rule	struct_copy(t_rule rule, int philo_id, pthread_mutex_t *left_fork, pthread_mutex_t *right_fork, pthread_mutex_t *mx_printf, pthread_mutex_t *mx_die);
 void	*routine(void *data);
 void	ft_eating(t_rule *rule);
 int		ft_time(void);
-
+void	ft_die(t_rule *all_rule, pthread_t *threads);
 
 #endif
-
