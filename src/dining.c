@@ -6,7 +6,7 @@
 /*   By: wlin <wlin@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/29 14:17:19 by wlin              #+#    #+#             */
-/*   Updated: 2024/05/04 20:23:32 by wlin             ###   ########.fr       */
+/*   Updated: 2024/05/05 21:34:51 by wlin             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ t_rule	struct_copy(t_rule rule, int philo_id, pthread_mutex_t *left_fork, pthrea
 	philo.right_fork = right_fork;
 	philo.mx_printf = mx_printf;
 	philo.mx_die = mx_die;
+	philo.die_flag = 0;
 	return (philo);
 }
 
