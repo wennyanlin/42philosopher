@@ -6,7 +6,7 @@
 /*   By: wlin <wlin@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/29 13:53:52 by wlin              #+#    #+#             */
-/*   Updated: 2024/05/05 22:57:41 by wlin             ###   ########.fr       */
+/*   Updated: 2024/05/05 23:25:23 by wlin             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ void	ft_die(t_rule *all_rule, pthread_t *threads)
 	int	time_start_eating;
 	int	time_die;
 	int	j;
+	int	num_eat;
 	
 	i = 0;
 	is_gonna_die = 0;
@@ -46,8 +47,9 @@ void	ft_die(t_rule *all_rule, pthread_t *threads)
 			pthread_mutex_lock(all_rule[i].mx_die);
 			time_die = all_rule[i].t_die;
 			time_start_eating = all_rule[i].t_start_eating;
+			num_eat = all_rule[i].num_eat;
 			pthread_mutex_unlock(all_rule[i].mx_die);
-			if ((ft_time() - time_start_eating) > time_die)
+			if ((ft_time() - time_start_eating) > time_die || num_eat == 0)
 			{
 				is_gonna_die = 1;
 				pthread_mutex_lock(all_rule[i].mx_die);
@@ -78,7 +80,7 @@ void	ft_sleeping_and_thinking(t_rule *rule)
 	if (!rule->die_flag)
 	{
 		pthread_mutex_lock(rule->mx_printf);
-		printf("[%d millisec] philo #%d is sleeping, flag: %d\n", ft_time(), rule->philo_id, rule->die_flag);
+		printf("[%d millisec] philo #%d is sleeping, num_eat: %d\n", ft_time(), rule->philo_id, rule->num_eat);
 		pthread_mutex_unlock(rule->mx_printf);
 	}
 	pthread_mutex_unlock(rule->mx_die);
@@ -87,7 +89,7 @@ void	ft_sleeping_and_thinking(t_rule *rule)
 	if (!rule->die_flag)
 	{
 		pthread_mutex_lock(rule->mx_printf);
-		printf("[%d millisec] philo #%d is thinking, flag: %d\n", ft_time(), rule->philo_id, rule->die_flag);
+		printf("[%d millisec] philo #%d is thinking, num_eat: %d\n", ft_time(), rule->philo_id, rule->num_eat);
 		pthread_mutex_unlock(rule->mx_printf);
 	}
 	pthread_mutex_unlock(rule->mx_die);
@@ -120,6 +122,7 @@ void	ft_eating(t_rule *rule)
 		pthread_mutex_lock(rule->mx_printf);
 		printf("[%ld millisec] philo #%d has taken a right fork\n", millisec, rule->philo_id);
 		printf("[%ld millisec] philo #%d is eating\n", millisec, rule->philo_id);
+		rule->num_eat--;
 		pthread_mutex_unlock(rule->mx_printf);
 	}
 	pthread_mutex_unlock(rule->mx_die);

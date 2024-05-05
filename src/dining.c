@@ -6,7 +6,7 @@
 /*   By: wlin <wlin@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/29 14:17:19 by wlin              #+#    #+#             */
-/*   Updated: 2024/05/05 21:34:51 by wlin             ###   ########.fr       */
+/*   Updated: 2024/05/05 23:16:19 by wlin             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	get_dining_rules(int argc, char **args, t_rule *rule)
 	rule->t_eat = ft_atoi(args[3]);
 	rule->t_sleep = ft_atoi(args[4]);
 	if (argc == 6)
-		rule->n_time_to_eat = ft_atoi(args[5]);
+		rule->num_eat = ft_atoi(args[5]);
 }
 
 t_rule	struct_copy(t_rule rule, int philo_id, pthread_mutex_t *left_fork, pthread_mutex_t *right_fork, pthread_mutex_t *mx_printf, pthread_mutex_t *mx_die)
@@ -30,7 +30,7 @@ t_rule	struct_copy(t_rule rule, int philo_id, pthread_mutex_t *left_fork, pthrea
 	philo.t_die = rule.t_die;
 	philo.t_eat = rule.t_eat;
 	philo.t_sleep = rule.t_sleep;
-	philo.n_time_to_eat = rule.n_time_to_eat; ///TODO: handle if this value is not set
+	philo.num_eat = rule.num_eat; ///TODO: handle if this value is not set
 	philo.philo_id = philo_id;
 	philo.left_fork = left_fork;
 	philo.right_fork = right_fork;

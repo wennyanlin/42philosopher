@@ -6,7 +6,7 @@
 /*   By: wlin <wlin@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 15:08:22 by wlin              #+#    #+#             */
-/*   Updated: 2024/05/05 21:33:18 by wlin             ###   ########.fr       */
+/*   Updated: 2024/05/05 23:16:19 by wlin             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ typedef struct s_rule
 	int	t_die;
 	int	t_eat;
 	int	t_sleep;
-	int	n_time_to_eat;
+	int	num_eat;
 	int	philo_id;
 	int	t_start_routine;
 	int	t_start_eating;
