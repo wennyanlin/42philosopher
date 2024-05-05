@@ -6,7 +6,7 @@
 /*   By: wlin <wlin@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 15:23:58 by wlin              #+#    #+#             */
-/*   Updated: 2024/05/01 20:15:01 by wlin             ###   ########.fr       */
+/*   Updated: 2024/05/04 19:52:58 by wlin             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,15 +16,6 @@ void	write_error()
 {
 	printf("Error\n");
 }
-
-// pthread_mutex_t	*create_fork()
-// {
-// 	pthread_mutex_t	*fork;
-
-// 	fork
-// 	pthread_mutex_init(fork, NULL);
-// 	return (fork);
-// }
 
 pthread_mutex_t *create_forks_array(int n_philos)
 {
@@ -38,8 +29,6 @@ pthread_mutex_t *create_forks_array(int n_philos)
 	while (++i < n_philos)
 		pthread_mutex_init(&forks_array[i], NULL);
 	i = -1;
-	// while (++i < n_philos)
-	// 	printf("memory address: %p\n", &forks_array[i]);
 	return (forks_array);
 }
 
@@ -49,6 +38,7 @@ t_rule	*get_all_philos_rules(t_rule rule)
 	t_rule			*all_rules;
 	pthread_mutex_t	*forks_array;
 	pthread_mutex_t	*mx_printf;
+	pthread_mutex_t	*mx_die;
 
 	i = -1;
 	all_rules = malloc(sizeof(t_rule) * rule.n_philo);
@@ -56,15 +46,19 @@ t_rule	*get_all_philos_rules(t_rule rule)
 		return (NULL);
 	forks_array = create_forks_array(rule.n_philo);
 	mx_printf = malloc(sizeof(pthread_mutex_t));
+	mx_die = malloc(sizeof(pthread_mutex_t));
 	if (!mx_printf)
 		return (NULL);
+	if (!mx_die)
+		return (NULL);
 	pthread_mutex_init(mx_printf, NULL);
+	pthread_mutex_init(mx_die, NULL);
 	while (++i < rule.n_philo)
 	{
 		if (i == rule.n_philo - 1)
-			all_rules[i] = struct_copy(rule, i + 1, &forks_array[i], &forks_array[0], mx_printf);
+			all_rules[i] = struct_copy(rule, i + 1, &forks_array[i], &forks_array[0], mx_printf, mx_die);
 		else
-			all_rules[i] = struct_copy(rule, i + 1, &forks_array[i], &forks_array[i + 1], mx_printf);
+			all_rules[i] = struct_copy(rule, i + 1, &forks_array[i], &forks_array[i + 1], mx_printf, mx_die);
 	}
 	i = -1;
 	return (all_rules);
