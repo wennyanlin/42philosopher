@@ -6,7 +6,7 @@
 /*   By: wlin <wlin@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/29 13:53:52 by wlin              #+#    #+#             */
-/*   Updated: 2024/05/06 17:24:14 by wlin             ###   ########.fr       */
+/*   Updated: 2024/05/07 14:29:49 by wlin             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,68 +29,61 @@ void	ft_usleep(int millisec)
 		usleep(200);
 }
 
-void	ft_sleeping_and_thinking(t_rule *rule)
+void	ft_sleeping_and_thinking(t_philo *philo)
 {
-	pthread_mutex_lock(rule->mx_die);
-	if (!rule->die_flag)
+	if (!philo->data->end_flag)
 	{
-		ft_printf(rule, "is sleeping", ft_time());
+		ft_printf(philo, "is sleeping", ft_time());
 	}
-	pthread_mutex_unlock(rule->mx_die);
-	ft_usleep(rule->t_sleep);
-	pthread_mutex_lock(rule->mx_die);
-	if (!rule->die_flag)
+	ft_usleep(philo->data->time_to_sleep);
+	if (!philo->data->end_flag)
 	{
-		ft_printf(rule, "is thinking", ft_time());
+		ft_printf(philo, "is thinking", ft_time());
 	}
-	pthread_mutex_unlock(rule->mx_die);
 }
 
-void	ft_eating(t_rule *rule)
+void	ft_eating(t_philo *philo)
 {
 	int	curr_time;
 
-	// if (rule->philo_id % 2 != 0)
-		// usleep(1);
-	pthread_mutex_lock(rule->left_fork);
+	pthread_mutex_lock(philo->left_fork);
 	curr_time = ft_time();
-	pthread_mutex_lock(rule->mx_die);
-	if (!rule->die_flag)
+	if (!philo->data->end_flag)
 	{
-		ft_printf(rule, "has taken a left fork", curr_time);
+		ft_printf(philo, "has taken a left fork", curr_time);
 	}
-	pthread_mutex_unlock(rule->mx_die);
-	pthread_mutex_lock(rule->right_fork);
+	pthread_mutex_lock(philo->right_fork);
 	curr_time = ft_time();
-	pthread_mutex_lock(rule->mx_die);//1
-	rule->t_start_eating = curr_time;//1 accessing struct to update start_eating_time
-	pthread_mutex_unlock(rule->mx_die);//1
-	pthread_mutex_lock(rule->mx_die);
-	if (!rule->die_flag)
+	pthread_mutex_lock(philo->data->mx_end);
+	philo->ate_at = curr_time;
+	pthread_mutex_unlock(philo->data->mx_end);
+	if (!philo->data->end_flag)
 	{
-		ft_printf(rule, "has taken a right fork", curr_time);
-		ft_printf(rule, "is eating", curr_time);
-		// rule->num_eat--;
+		ft_printf(philo, "has taken a right fork", curr_time);
+		ft_printf(philo, "is eating", curr_time);
+		// rule->num_meals--;
 	}
-	pthread_mutex_unlock(rule->mx_die);
-	ft_usleep(rule->t_eat);
-	pthread_mutex_unlock(rule->right_fork);
-	pthread_mutex_unlock(rule->left_fork);
+	ft_usleep(philo->data->time_to_eat);
+	pthread_mutex_unlock(philo->right_fork);
+	pthread_mutex_unlock(philo->left_fork);
 }
 
 void	*routine(void *data)
 {
-	t_rule			*rule;
+	t_philo			*philo;
 
-	rule = (t_rule *)data;
+	philo = (t_philo *)data;
+	printf("%p\n", philo);
+	printf("%p\n", philo->tid);
+	printf("hola %d\n", philo->id);
 	while (1)
 	{
-		ft_eating(rule);
-		ft_sleeping_and_thinking(rule);
+		ft_eating(philo);
+		ft_sleeping_and_thinking(philo);
 	}
 	return (EXIT_SUCCESS);
 }
 
 //PROBLEM:
-//all of thread haven eaten 'num_eat' times, then stop the simulation
-//while there is still one thread haven't reach 'num_eat' times,
+//all of thread haven eaten 'num_meals' times, then stop the simulation
+//while there is still one thread haven't reach 'num_meals' times,

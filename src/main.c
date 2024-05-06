@@ -6,7 +6,7 @@
 /*   By: wlin <wlin@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 15:23:58 by wlin              #+#    #+#             */
-/*   Updated: 2024/05/04 19:52:58 by wlin             ###   ########.fr       */
+/*   Updated: 2024/05/07 14:22:43 by wlin             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,57 +17,46 @@ void	write_error()
 	printf("Error\n");
 }
 
-pthread_mutex_t *create_forks_array(int n_philos)
+pthread_mutex_t *create_forks_array(t_data *data)
 {
-	pthread_mutex_t	*forks_array;
+	pthread_mutex_t		*all_forks;
 	int				i;
 
-	forks_array = malloc(sizeof(pthread_mutex_t) * n_philos);
-	if (!forks_array)
+	all_forks = malloc(sizeof(pthread_mutex_t) * data->num_philos);
+	if (!all_forks)
 		return (NULL);
 	i = -1;
-	while (++i < n_philos)
-		pthread_mutex_init(&forks_array[i], NULL);
-	i = -1;
-	return (forks_array);
+	while (++i < data->num_philos)
+		pthread_mutex_init(&all_forks[i], NULL);
+	//TODO: return a specified error message!
+	return (all_forks);
 }
 
-t_rule	*get_all_philos_rules(t_rule rule)
+void	get_all_philos_rules(t_data *data, int argc, char **args)
 {
-	int				i;
-	t_rule			*all_rules;
-	pthread_mutex_t	*forks_array;
-	pthread_mutex_t	*mx_printf;
-	pthread_mutex_t	*mx_die;
+	pthread_mutex_t	*all_forks;
 
-	i = -1;
-	all_rules = malloc(sizeof(t_rule) * rule.n_philo);
-	if (!all_rules)
-		return (NULL);
-	forks_array = create_forks_array(rule.n_philo);
-	mx_printf = malloc(sizeof(pthread_mutex_t));
-	mx_die = malloc(sizeof(pthread_mutex_t));
-	if (!mx_printf)
-		return (NULL);
-	if (!mx_die)
-		return (NULL);
-	pthread_mutex_init(mx_printf, NULL);
-	pthread_mutex_init(mx_die, NULL);
-	while (++i < rule.n_philo)
-	{
-		if (i == rule.n_philo - 1)
-			all_rules[i] = struct_copy(rule, i + 1, &forks_array[i], &forks_array[0], mx_printf, mx_die);
-		else
-			all_rules[i] = struct_copy(rule, i + 1, &forks_array[i], &forks_array[i + 1], mx_printf, mx_die);
-	}
-	i = -1;
-	return (all_rules);
+	data->num_philos = ft_atoi(args[1]);
+	data->time_to_die = ft_atoi(args[2]);
+	data->time_to_eat = ft_atoi(args[3]);
+	data->time_to_sleep = ft_atoi(args[4]);
+	data->end_flag = 0;
+	if (argc == 6)
+		data->num_meals = ft_atoi(args[5]);///TODO: handle if this value is not set!
+	data->all_philos = malloc(sizeof(t_philo) * (data->num_philos));
+	if (!data->all_philos)
+		return ;
+	all_forks = create_forks_array(data);
+	data->mx_printf = malloc(sizeof(pthread_mutex_t));
+	data->mx_end = malloc(sizeof(pthread_mutex_t));
+	pthread_mutex_init(data->mx_printf, NULL);
+	pthread_mutex_init(data->mx_end, NULL);
+	struct_copy(data, all_forks);
 }
 
 int	main(int argc, char **argv)
 {
-	t_rule	rule;
-	t_rule	*all_rules;
+	t_data	data;
 	int		i;
 
 	if (argc == 5 || argc == 6)
@@ -75,11 +64,11 @@ int	main(int argc, char **argv)
 		i = -1;
 		if (validate_args(argc, argv) == FALSE)
 			return (write_error(), EXIT_FAILURE);
-		get_dining_rules(argc, argv, &rule);
-		all_rules = get_all_philos_rules(rule);
-		start_dining(all_rules, rule.n_philo);
-		while (++i < rule.n_philo)
-			pthread_mutex_destroy(all_rules[i].left_fork);
+
+		get_all_philos_rules(&data, argc, argv);
+		start_dining(&data);
+		while (++i < data.num_philos)
+			pthread_mutex_destroy(data.all_philos[i].left_fork);
 	}
 	else
 		write_error();
