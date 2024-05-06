@@ -6,7 +6,7 @@
 /*   By: wlin <wlin@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 15:08:22 by wlin              #+#    #+#             */
-/*   Updated: 2024/05/05 23:16:19 by wlin             ###   ########.fr       */
+/*   Updated: 2024/05/06 17:06:10 by wlin             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,5 +58,6 @@ void	ft_eating(t_rule *rule);
 int		ft_time(void);
 void	ft_die(t_rule *all_rule, pthread_t *threads);
 void	ft_usleep(int millisec);
+void	ft_printf(t_rule *rule, char *message, int curr_time);
 
 #endif

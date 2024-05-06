@@ -6,7 +6,7 @@
 /*   By: wlin <wlin@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/29 14:17:19 by wlin              #+#    #+#             */
-/*   Updated: 2024/05/05 23:16:19 by wlin             ###   ########.fr       */
+/*   Updated: 2024/05/06 17:23:52 by wlin             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,48 @@ pthread_t	create_thread(t_rule *rule, int i)
 		return (NULL);
 	}
 	return (thr);
+}
+
+void	ft_die(t_rule *all_rule, pthread_t *threads)
+{
+	int	i;
+	int	is_gonna_die;
+	int	time_start_eating;
+	int	time_die;
+	int	j;
+	int	num_eat;
+
+	i = 0;
+	is_gonna_die = 0;
+	while (!is_gonna_die)
+	{
+		while (i < all_rule[i].n_philo)
+		{
+			pthread_mutex_lock(all_rule[i].mx_die);
+			time_die = all_rule[i].t_die;
+			time_start_eating = all_rule[i].t_start_eating;
+			num_eat = all_rule[i].num_eat;
+			pthread_mutex_unlock(all_rule[i].mx_die);
+			if ((ft_time() - time_start_eating) > time_die || num_eat == 0)
+			{
+				is_gonna_die = 1;
+				pthread_mutex_lock(all_rule[i].mx_die);
+				j = 0;
+				all_rule[j].die_flag = 1;
+				ft_printf(&all_rule[i], "died", ft_time());
+				pthread_mutex_unlock(all_rule[i].mx_die);
+				// (void)threads;
+				i = 0;
+				while (i < all_rule[i].n_philo)
+					pthread_detach(threads[i++]);
+			}
+			if (i == all_rule[0].n_philo - 1)
+				i = 0;
+			else
+				i++;
+		}
+		ft_usleep(5);
+	}
 }
 
 int	start_dining(t_rule *all_rule, int n_philo)
