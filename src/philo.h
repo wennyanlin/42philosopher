@@ -6,7 +6,7 @@
 /*   By: wlin <wlin@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 15:08:22 by wlin              #+#    #+#             */
-/*   Updated: 2024/05/07 14:34:47 by wlin             ###   ########.fr       */
+/*   Updated: 2024/05/07 17:48:56 by wlin             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 #include <pthread.h>
 #include <sys/time.h>
 #include <string.h>
+#include <stdatomic.h>
 
 # define NC	"\e[0m"
 # define YELLOW	"\e[33m"
@@ -34,11 +35,11 @@ typedef struct s_data t_data;
 typedef struct s_philo
 {
 	int				id;
+	pthread_t		tid;
 	int				num_meals;
 	int				ate_at;
 	pthread_mutex_t	*left_fork;
 	pthread_mutex_t	*right_fork;
-	pthread_t		tid;
 	t_data			*data;
 }	t_philo;
 
@@ -52,11 +53,10 @@ typedef struct s_data
 	int				start_at;
 	int				end_flag;
 	t_philo			*all_philos;
-	//pthread_t		*all_threads;
+	pthread_mutex_t	*mx_info;
 	pthread_mutex_t	*mx_printf;
 	pthread_mutex_t	*mx_end;
 }	t_data;
-
 
 int		validate_args(int argc, char **argv);
 long	ft_atoi(const char *str);

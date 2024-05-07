@@ -6,7 +6,7 @@
 /*   By: wlin <wlin@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 15:23:58 by wlin              #+#    #+#             */
-/*   Updated: 2024/05/07 14:22:43 by wlin             ###   ########.fr       */
+/*   Updated: 2024/05/07 18:14:12 by wlin             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ pthread_mutex_t *create_forks_array(t_data *data)
 	return (all_forks);
 }
 
-void	get_all_philos_rules(t_data *data, int argc, char **args)
+int	get_all_philos_rules(t_data *data, int argc, char **args)
 {
 	pthread_mutex_t	*all_forks;
 
@@ -45,13 +45,18 @@ void	get_all_philos_rules(t_data *data, int argc, char **args)
 		data->num_meals = ft_atoi(args[5]);///TODO: handle if this value is not set!
 	data->all_philos = malloc(sizeof(t_philo) * (data->num_philos));
 	if (!data->all_philos)
-		return ;
+		return (2);
 	all_forks = create_forks_array(data);
 	data->mx_printf = malloc(sizeof(pthread_mutex_t));
 	data->mx_end = malloc(sizeof(pthread_mutex_t));
+	data->mx_info = malloc(sizeof(pthread_mutex_t));
+	if (!data->mx_end || !data->mx_info || !data->mx_printf)
+		return (3);
 	pthread_mutex_init(data->mx_printf, NULL);
 	pthread_mutex_init(data->mx_end, NULL);
+	pthread_mutex_init(data->mx_info, NULL);
 	struct_copy(data, all_forks);
+	return (0);
 }
 
 int	main(int argc, char **argv)

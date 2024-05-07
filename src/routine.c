@@ -6,7 +6,7 @@
 /*   By: wlin <wlin@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/29 13:53:52 by wlin              #+#    #+#             */
-/*   Updated: 2024/05/07 14:29:49 by wlin             ###   ########.fr       */
+/*   Updated: 2024/05/07 18:00:47 by wlin             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,14 +29,24 @@ void	ft_usleep(int millisec)
 		usleep(200);
 }
 
+int	get_end_flag(t_data *data)
+{
+	int	end_flag;
+
+	pthread_mutex_lock(data->mx_end);
+	end_flag = data->end_flag;
+	pthread_mutex_unlock(data->mx_end);
+	return (end_flag);
+}
+
 void	ft_sleeping_and_thinking(t_philo *philo)
 {
-	if (!philo->data->end_flag)
+	if (!get_end_flag(philo->data))
 	{
 		ft_printf(philo, "is sleeping", ft_time());
 	}
 	ft_usleep(philo->data->time_to_sleep);
-	if (!philo->data->end_flag)
+	if (!get_end_flag(philo->data))
 	{
 		ft_printf(philo, "is thinking", ft_time());
 	}
@@ -44,20 +54,24 @@ void	ft_sleeping_and_thinking(t_philo *philo)
 
 void	ft_eating(t_philo *philo)
 {
-	int	curr_time;
+	atomic_int	curr_time;
+	int	end;
 
 	pthread_mutex_lock(philo->left_fork);
 	curr_time = ft_time();
-	if (!philo->data->end_flag)
+	if (!get_end_flag(philo->data))
 	{
 		ft_printf(philo, "has taken a left fork", curr_time);
 	}
 	pthread_mutex_lock(philo->right_fork);
 	curr_time = ft_time();
-	pthread_mutex_lock(philo->data->mx_end);
+	end = philo->data->end_flag;
+	write(1, "hello\n", 6);
+	printf("p: %p\n", philo->data->mx_info);
+	// pthread_mutex_lock(philo->data->mx_info);///
 	philo->ate_at = curr_time;
-	pthread_mutex_unlock(philo->data->mx_end);
-	if (!philo->data->end_flag)
+	// pthread_mutex_unlock(philo->data->mx_info);///
+	if (!get_end_flag(philo->data))
 	{
 		ft_printf(philo, "has taken a right fork", curr_time);
 		ft_printf(philo, "is eating", curr_time);
@@ -73,9 +87,9 @@ void	*routine(void *data)
 	t_philo			*philo;
 
 	philo = (t_philo *)data;
-	printf("%p\n", philo);
-	printf("%p\n", philo->tid);
-	printf("hola %d\n", philo->id);
+	// printf("%p\n", philo);
+	// printf("%p\n", philo->tid);
+	// printf("hola %d\n", philo->id);
 	while (1)
 	{
 		ft_eating(philo);
