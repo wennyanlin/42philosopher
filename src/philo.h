@@ -6,7 +6,7 @@
 /*   By: wlin <wlin@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 15:08:22 by wlin              #+#    #+#             */
-/*   Updated: 2024/05/07 17:48:56 by wlin             ###   ########.fr       */
+/*   Updated: 2024/05/07 22:27:21 by wlin             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,8 @@
 # define TRUE 1
 # define FALSE 0
 # define MAX_INT 2147483647
+# define NTB 0
+# define TB 1
 
 typedef struct s_data t_data;
 
@@ -70,5 +72,6 @@ int		ft_time(void);
 void	ft_die(t_data *data);
 void	ft_usleep(int millisec);
 void	ft_printf(t_philo *rule, char *message, int curr_time);
+void	ft_ntb_printf(t_philo *philo, char *message, int curr_time, int tbontb);
 
 #endif

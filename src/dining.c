@@ -6,7 +6,7 @@
 /*   By: wlin <wlin@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/29 14:17:19 by wlin              #+#    #+#             */
-/*   Updated: 2024/05/07 18:15:08 by wlin             ###   ########.fr       */
+/*   Updated: 2024/05/07 22:12:33 by wlin             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,20 +54,17 @@ void	ft_die(t_data *data)
 	{
 		while (i < data->num_philos)
 		{
-			// pthread_mutex_lock(data->mx_info);///
+			pthread_mutex_lock(data->mx_info);///
 			time_to_die = data->time_to_die;////
 			ate_at = data->all_philos->ate_at;////
 			num_meals = data->all_philos->num_meals;///
-			// pthread_mutex_unlock(data->mx_info);////
+			pthread_mutex_unlock(data->mx_info);////
 			if ((ft_time() - ate_at) > time_to_die || num_meals == 0)
 			{
 				is_gonna_die = 1;
-				// pthread_mutex_lock(data->mx_end);
 				j = 0;
 				set_end_flag(data);
-				// pthread_mutex_unlock(data->mx_end);
-				ft_printf(&data->all_philos[j], "died", ft_time());
-				// (void)threads;
+				ft_ntb_printf(&data->all_philos[j], "died", ft_time(), NTB);
 				i = 0;
 				while (i < data->num_philos)
 					pthread_detach(data->all_philos[i++].tid);
@@ -102,9 +99,6 @@ void	create_thread(t_data *data)
 
 int	start_dining(t_data *data)
 {
-	int			i;
-
-	i = 0;
 	// while (i < data->num_philos)
 	// {
 		// data->all_philos[i].ate_at = ft_time();
