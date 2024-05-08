@@ -6,7 +6,7 @@
 /*   By: wlin <wlin@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 15:23:58 by wlin              #+#    #+#             */
-/*   Updated: 2024/05/07 18:14:12 by wlin             ###   ########.fr       */
+/*   Updated: 2024/05/08 18:35:59 by wlin             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,25 @@ pthread_mutex_t *create_forks_array(t_data *data)
 		pthread_mutex_init(&all_forks[i], NULL);
 	//TODO: return a specified error message!
 	return (all_forks);
+}
+
+void	struct_copy(t_data *data, pthread_mutex_t *all_forks)
+{
+	int	i;
+
+	i = -1;
+	while (++i < data->num_philos)
+	{
+		data->end_flag = 0;
+		data->all_philos[i].id = i + 1;
+		data->all_philos[i].num_meals = data->num_meals; ///TODO: handle if this value is not set
+		data->all_philos[i].left_fork = &all_forks[i];
+		if (i == data->num_philos - 1)
+			data->all_philos[i].right_fork = &all_forks[0];
+		else
+			data->all_philos[i].right_fork = &all_forks[i + 1];
+		data->all_philos[i].data = data;
+	}
 }
 
 int	get_all_philos_rules(t_data *data, int argc, char **args)
@@ -69,7 +88,6 @@ int	main(int argc, char **argv)
 		i = -1;
 		if (validate_args(argc, argv) == FALSE)
 			return (write_error(), EXIT_FAILURE);
-
 		get_all_philos_rules(&data, argc, argv);
 		start_dining(&data);
 		while (++i < data.num_philos)
@@ -77,5 +95,8 @@ int	main(int argc, char **argv)
 	}
 	else
 		write_error();
+	i = -1;
+	while (++i < data.num_philos)
+		pthread_join(data.all_philos[i].tid, NULL);
 	return (0);
 }

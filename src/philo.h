@@ -6,7 +6,7 @@
 /*   By: wlin <wlin@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 15:08:22 by wlin              #+#    #+#             */
-/*   Updated: 2024/05/07 22:27:21 by wlin             ###   ########.fr       */
+/*   Updated: 2024/05/08 18:31:42 by wlin             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@
 #include <pthread.h>
 #include <sys/time.h>
 #include <string.h>
-#include <stdatomic.h>
 
 # define NC	"\e[0m"
 # define YELLOW	"\e[33m"
@@ -39,7 +38,7 @@ typedef struct s_philo
 	int				id;
 	pthread_t		tid;
 	int				num_meals;
-	int				ate_at;
+	long			ate_at;
 	pthread_mutex_t	*left_fork;
 	pthread_mutex_t	*right_fork;
 	t_data			*data;
@@ -48,11 +47,11 @@ typedef struct s_philo
 typedef struct s_data
 {
 	int				num_philos;
-	int				time_to_die;
-	int				time_to_eat;
-	int				time_to_sleep;
+	long			time_to_die;
+	long			time_to_eat;
+	long			time_to_sleep;
 	int				num_meals;
-	int				start_at;
+	long			start_at;
 	int				end_flag;
 	t_philo			*all_philos;
 	pthread_mutex_t	*mx_info;
@@ -64,11 +63,11 @@ int		validate_args(int argc, char **argv);
 long	ft_atoi(const char *str);
 int		is_number(char *arg);
 // void	get_dining_rules(int argc, char **args, t_philo *rule);
-int		start_dining(t_data *data);
+void	start_dining(t_data *data);
 void	struct_copy(t_data *data, pthread_mutex_t *threads);
 void	*routine(void *data);
 void	ft_eating(t_philo *rule);
-int		ft_time(void);
+long	ft_time(void);
 void	ft_die(t_data *data);
 void	ft_usleep(int millisec);
 void	ft_printf(t_philo *rule, char *message, int curr_time);

@@ -6,13 +6,13 @@
 /*   By: wlin <wlin@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/29 13:53:52 by wlin              #+#    #+#             */
-/*   Updated: 2024/05/07 22:22:41 by wlin             ###   ########.fr       */
+/*   Updated: 2024/05/08 18:32:51 by wlin             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-int	ft_time(void)
+long	ft_time(void)
 {
 	struct timeval	tv;
 
@@ -60,7 +60,7 @@ void	ft_eating(t_philo *philo)
 	pthread_mutex_unlock(philo->data->mx_info);
 	ft_printf(philo, "has taken a right fork", curr_time);
 	ft_printf(philo, "is eating", curr_time);
-		// rule->num_meals--;
+	// rule->num_meals--;
 	ft_usleep(philo->data->time_to_eat);
 	pthread_mutex_unlock(philo->right_fork);
 	pthread_mutex_unlock(philo->left_fork);
@@ -71,10 +71,7 @@ void	*routine(void *data)
 	t_philo			*philo;
 
 	philo = (t_philo *)data;
-	// printf("%p\n", philo);
-	// printf("%p\n", philo->tid);
-	// printf("hola %d\n", philo->id);
-	while (1)
+	while (get_end_flag(philo->data) == 0)
 	{
 		ft_eating(philo);
 		ft_sleeping_and_thinking(philo);
