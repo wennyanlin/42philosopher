@@ -6,7 +6,7 @@
 /*   By: wlin <wlin@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/29 13:53:52 by wlin              #+#    #+#             */
-/*   Updated: 2024/05/11 15:50:17 by wlin             ###   ########.fr       */
+/*   Updated: 2024/05/11 19:54:24 by wlin             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,8 +60,11 @@ void	ft_eating(t_philo *philo)
 	pthread_mutex_unlock(philo->data->mx_info);
 	ft_printf(philo, "has taken a right fork", curr_time);
 	ft_printf(philo, "is eating", curr_time);
-	// rule->num_meals--;
 	ft_usleep(philo->data->time_to_eat);
+	pthread_mutex_lock(philo->data->mx_info);
+	if (philo->num_meals > 0)
+		philo->num_meals--;
+	pthread_mutex_unlock(philo->data->mx_info);
 	pthread_mutex_unlock(philo->right_fork);
 	pthread_mutex_unlock(philo->left_fork);
 }

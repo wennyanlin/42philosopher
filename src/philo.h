@@ -6,7 +6,7 @@
 /*   By: wlin <wlin@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 15:08:22 by wlin              #+#    #+#             */
-/*   Updated: 2024/05/11 15:50:10 by wlin             ###   ########.fr       */
+/*   Updated: 2024/05/11 18:57:17 by wlin             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,7 @@ typedef struct s_data
 	int				num_meals;
 	long			start_at;
 	int				end_flag;
+	int				all_fed;
 	t_philo			*all_philos;
 	pthread_mutex_t	*mx_info;
 	pthread_mutex_t	*mx_printf;
@@ -72,5 +73,6 @@ void	ft_die(t_data *data);
 void	ft_usleep(long millisec);
 void	ft_printf(t_philo *rule, char *message, long curr_time);
 void	ft_ntb_printf(t_philo *philo, char *message, long curr_time, int tbontb);
+void	ft_end_printf(t_data *data);
 
 #endif

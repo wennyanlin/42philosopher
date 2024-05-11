@@ -6,7 +6,7 @@
 /*   By: wlin <wlin@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 15:23:58 by wlin              #+#    #+#             */
-/*   Updated: 2024/05/08 18:35:59 by wlin             ###   ########.fr       */
+/*   Updated: 2024/05/11 18:30:19 by wlin             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,6 @@ void	struct_copy(t_data *data, pthread_mutex_t *all_forks)
 	i = -1;
 	while (++i < data->num_philos)
 	{
-		data->end_flag = 0;
 		data->all_philos[i].id = i + 1;
 		data->all_philos[i].num_meals = data->num_meals; ///TODO: handle if this value is not set
 		data->all_philos[i].left_fork = &all_forks[i];
@@ -60,6 +59,7 @@ int	get_all_philos_rules(t_data *data, int argc, char **args)
 	data->time_to_eat = ft_atoi(args[3]);
 	data->time_to_sleep = ft_atoi(args[4]);
 	data->end_flag = 0;
+	data->all_fed = 0;
 	if (argc == 6)
 		data->num_meals = ft_atoi(args[5]);///TODO: handle if this value is not set!
 	data->all_philos = malloc(sizeof(t_philo) * (data->num_philos));

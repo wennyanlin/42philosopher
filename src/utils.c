@@ -6,15 +6,25 @@
 /*   By: wlin <wlin@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 15:52:40 by wlin              #+#    #+#             */
-/*   Updated: 2024/05/11 16:02:04 by wlin             ###   ########.fr       */
+/*   Updated: 2024/05/11 19:02:29 by wlin             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
+void	ft_end_printf(t_data *data)
+{
+	pthread_mutex_lock(data->mx_info);
+	pthread_mutex_lock(data->mx_printf);
+	printf("[%ld] All philos are well fed!\n", ft_time() - data->start_at);
+	pthread_mutex_unlock(data->mx_printf);
+	pthread_mutex_unlock(data->mx_info);
+}
+
 void	ft_printf(t_philo *philo, char *message, long curr_time)
 {
 	ft_ntb_printf(philo, message, curr_time, TB);
+	
 }
 
 void	ft_ntb_printf(t_philo *philo, char *message, long curr_time, int tbontb)

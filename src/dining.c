@@ -6,7 +6,7 @@
 /*   By: wlin <wlin@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/29 14:17:19 by wlin              #+#    #+#             */
-/*   Updated: 2024/05/11 15:59:36 by wlin             ###   ########.fr       */
+/*   Updated: 2024/05/11 19:53:03 by wlin             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,35 +35,60 @@ void	set_end_flag(t_data *data)
 	pthread_mutex_unlock(data->mx_end);
 }
 
+int	are_fed(t_data *data)
+{
+	int	i;
+	int	num_meals;
+
+	i = -1;
+	while (++i < data->num_philos)
+	{
+		pthread_mutex_lock(data->mx_info);
+		num_meals = data->all_philos[i].num_meals;
+		pthread_mutex_unlock(data->mx_info);
+		if (num_meals != 0)
+			return (0);
+	}
+	data->all_fed = 1;
+	return (1);
+}
+
+int	are_starved(t_data *data)
+{
+	long	time_to_die;
+	long	ate_at;
+
+	pthread_mutex_lock(data->mx_info);///
+	time_to_die = data->time_to_die;////
+	ate_at = data->all_philos->ate_at;////
+	pthread_mutex_unlock(data->mx_info);////
+	if ((ft_time() - ate_at) > time_to_die)
+		return (1);
+	return (0);
+}
+
 void	ft_die(t_data *data)
 {
 	int		i;
 	int		is_gonna_die;
-	long	ate_at;
-	long	time_to_die;
-	int	num_meals;
 
 	is_gonna_die = 0;
 	while (!is_gonna_die)
 	{
-		i = 0;
-		while (i < data->num_philos)
+		i = -1;
+		while (++i < data->num_philos)
 		{
-			pthread_mutex_lock(data->mx_info);///
-			time_to_die = data->time_to_die;////
-			ate_at = data->all_philos->ate_at;////
-			num_meals = data->all_philos->num_meals;///
-			pthread_mutex_unlock(data->mx_info);////
-			if ((ft_time() - ate_at) > time_to_die || num_meals == 0)
+			if (are_starved(data) || are_fed(data))
 			{
+				
 				is_gonna_die = 1;
 				set_end_flag(data);
+				if (data->all_fed)
+					return (ft_end_printf(data));
 				ft_ntb_printf(&data->all_philos[i], "died", ft_time(), NTB);
-				// exit(3);
 			}
-			++i;
 		}
-		// ft_usleep(5);
+		ft_usleep(500);
 	}
 }
 
