@@ -6,7 +6,7 @@
 /*   By: wlin <wlin@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/29 13:53:52 by wlin              #+#    #+#             */
-/*   Updated: 2024/05/08 18:32:51 by wlin             ###   ########.fr       */
+/*   Updated: 2024/05/11 15:50:17 by wlin             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,9 @@ long	ft_time(void)
 	return ((tv.tv_sec * 1000) + (tv.tv_usec / 1000));
 }
 
-void	ft_usleep(int millisec)
+void	ft_usleep(long millisec)
 {
-	int	end;
+	long	end;
 
 	end = ft_time() + millisec;
 	while (ft_time() < end)
@@ -48,7 +48,7 @@ void	ft_sleeping_and_thinking(t_philo *philo)
 
 void	ft_eating(t_philo *philo)
 {
-	int	curr_time;
+	long	curr_time;
 
 	pthread_mutex_lock(philo->left_fork);
 	curr_time = ft_time();

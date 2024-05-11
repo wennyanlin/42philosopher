@@ -6,7 +6,7 @@
 /*   By: wlin <wlin@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 15:08:22 by wlin              #+#    #+#             */
-/*   Updated: 2024/05/08 18:31:42 by wlin             ###   ########.fr       */
+/*   Updated: 2024/05/11 15:50:10 by wlin             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,8 +69,8 @@ void	*routine(void *data);
 void	ft_eating(t_philo *rule);
 long	ft_time(void);
 void	ft_die(t_data *data);
-void	ft_usleep(int millisec);
-void	ft_printf(t_philo *rule, char *message, int curr_time);
-void	ft_ntb_printf(t_philo *philo, char *message, int curr_time, int tbontb);
+void	ft_usleep(long millisec);
+void	ft_printf(t_philo *rule, char *message, long curr_time);
+void	ft_ntb_printf(t_philo *philo, char *message, long curr_time, int tbontb);
 
 #endif
