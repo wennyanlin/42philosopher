@@ -6,7 +6,7 @@
 /*   By: wlin <wlin@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/29 14:17:19 by wlin              #+#    #+#             */
-/*   Updated: 2024/05/11 15:49:47 by wlin             ###   ########.fr       */
+/*   Updated: 2024/05/11 15:59:36 by wlin             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ void	create_thread(t_data *data)
 	int	i;
 
 	i = -1;
+	data->start_at = ft_time();
 	while (++i < data->num_philos)
 	{
 		data->all_philos[i].ate_at = ft_time();
