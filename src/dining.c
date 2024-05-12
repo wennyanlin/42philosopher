@@ -6,7 +6,7 @@
 /*   By: wlin <wlin@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/29 14:17:19 by wlin              #+#    #+#             */
-/*   Updated: 2024/05/11 19:53:03 by wlin             ###   ########.fr       */
+/*   Updated: 2024/05/12 19:25:36 by wlin             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,6 +86,7 @@ void	ft_die(t_data *data)
 				if (data->all_fed)
 					return (ft_end_printf(data));
 				ft_ntb_printf(&data->all_philos[i], "died", ft_time(), NTB);
+				return ;
 			}
 		}
 		ft_usleep(500);
