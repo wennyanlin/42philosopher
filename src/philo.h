@@ -6,7 +6,7 @@
 /*   By: wlin <wlin@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 15:08:22 by wlin              #+#    #+#             */
-/*   Updated: 2024/05/05 21:33:18 by wlin             ###   ########.fr       */
+/*   Updated: 2024/05/11 18:57:17 by wlin             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 #include <unistd.h>
 #include <pthread.h>
 #include <sys/time.h>
+#include <string.h>
 
 # define NC	"\e[0m"
 # define YELLOW	"\e[33m"
@@ -27,36 +28,51 @@
 # define TRUE 1
 # define FALSE 0
 # define MAX_INT 2147483647
+# define NTB 0
+# define TB 1
 
-typedef struct s_rule
+typedef struct s_data t_data;
+
+typedef struct s_philo
 {
-	int	n_philo;
-	int	t_die;
-	int	t_eat;
-	int	t_sleep;
-	int	n_time_to_eat;
-	int	philo_id;
-	int	t_start_routine;
-	int	t_start_eating;
-	int	t_fin_eating;
-	int	die_flag;
+	int				id;
+	pthread_t		tid;
+	int				num_meals;
+	long			ate_at;
 	pthread_mutex_t	*left_fork;
 	pthread_mutex_t	*right_fork;
-	pthread_mutex_t	*mx_printf;
-	pthread_mutex_t	*mx_die;
+	t_data			*data;
+}	t_philo;
 
-}	t_rule;
+typedef struct s_data
+{
+	int				num_philos;
+	long			time_to_die;
+	long			time_to_eat;
+	long			time_to_sleep;
+	int				num_meals;
+	long			start_at;
+	int				end_flag;
+	int				all_fed;
+	t_philo			*all_philos;
+	pthread_mutex_t	*mx_info;
+	pthread_mutex_t	*mx_printf;
+	pthread_mutex_t	*mx_end;
+}	t_data;
 
 int		validate_args(int argc, char **argv);
 long	ft_atoi(const char *str);
 int		is_number(char *arg);
-void	get_dining_rules(int argc, char **args, t_rule *rule);
-int		start_dining(t_rule *all_rules, int n_philo);
-t_rule	struct_copy(t_rule rule, int philo_id, pthread_mutex_t *left_fork, pthread_mutex_t *right_fork, pthread_mutex_t *mx_printf, pthread_mutex_t *mx_die);
+// void	get_dining_rules(int argc, char **args, t_philo *rule);
+void	start_dining(t_data *data);
+void	struct_copy(t_data *data, pthread_mutex_t *threads);
 void	*routine(void *data);
-void	ft_eating(t_rule *rule);
-int		ft_time(void);
-void	ft_die(t_rule *all_rule, pthread_t *threads);
-void	ft_usleep(int millisec);
+void	ft_eating(t_philo *rule);
+long	ft_time(void);
+void	ft_die(t_data *data);
+void	ft_usleep(long millisec);
+void	ft_printf(t_philo *rule, char *message, long curr_time);
+void	ft_ntb_printf(t_philo *philo, char *message, long curr_time, int tbontb);
+void	ft_end_printf(t_data *data);
 
 #endif
