@@ -6,7 +6,7 @@
 /*   By: wlin <wlin@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 15:52:40 by wlin              #+#    #+#             */
-/*   Updated: 2024/05/11 19:02:29 by wlin             ###   ########.fr       */
+/*   Updated: 2024/05/12 20:14:36 by wlin             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ void	ft_end_printf(t_data *data)
 {
 	pthread_mutex_lock(data->mx_info);
 	pthread_mutex_lock(data->mx_printf);
-	printf("[%ld] All philos are well fed!\n", ft_time() - data->start_at);
+	printf("[%ld ms] All philos are well fed!\n", ft_time() - data->start_at);
 	pthread_mutex_unlock(data->mx_printf);
 	pthread_mutex_unlock(data->mx_info);
 }

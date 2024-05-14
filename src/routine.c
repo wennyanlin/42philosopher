@@ -6,7 +6,7 @@
 /*   By: wlin <wlin@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/29 13:53:52 by wlin              #+#    #+#             */
-/*   Updated: 2024/05/11 19:54:24 by wlin             ###   ########.fr       */
+/*   Updated: 2024/05/14 13:45:05 by wlin             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ void	ft_eating(t_philo *philo)
 
 void	*routine(void *data)
 {
-	t_philo			*philo;
+	t_philo	*philo;
 
 	philo = (t_philo *)data;
 	while (get_end_flag(philo->data) == 0)
@@ -82,6 +82,15 @@ void	*routine(void *data)
 	return (EXIT_SUCCESS);
 }
 
-//PROBLEM:
-//all of thread haven eaten 'num_meals' times, then stop the simulation
-//while there is still one thread haven't reach 'num_meals' times,
+void	*one_philo_routine(void *data)
+{
+	t_philo	*philo;
+	
+	philo = (t_philo *)data;
+	philo->data->start_at = ft_time();
+	ft_printf(philo, "has taken a left fork", ft_time());
+	ft_usleep(philo->data->time_to_die);
+	ft_ntb_printf(philo, "died", ft_time(), NTB);
+	return (EXIT_SUCCESS);
+}
+

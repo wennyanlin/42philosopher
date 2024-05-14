@@ -6,7 +6,7 @@
 /*   By: wlin <wlin@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/29 14:17:19 by wlin              #+#    #+#             */
-/*   Updated: 2024/05/12 19:25:36 by wlin             ###   ########.fr       */
+/*   Updated: 2024/05/14 13:43:40 by wlin             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,14 +53,14 @@ int	are_fed(t_data *data)
 	return (1);
 }
 
-int	are_starved(t_data *data)
+int	are_starved(t_data *data, int i)
 {
 	long	time_to_die;
 	long	ate_at;
 
 	pthread_mutex_lock(data->mx_info);///
 	time_to_die = data->time_to_die;////
-	ate_at = data->all_philos->ate_at;////
+	ate_at = data->all_philos[i].ate_at;////
 	pthread_mutex_unlock(data->mx_info);////
 	if ((ft_time() - ate_at) > time_to_die)
 		return (1);
@@ -69,8 +69,8 @@ int	are_starved(t_data *data)
 
 void	ft_die(t_data *data)
 {
-	int		i;
-	int		is_gonna_die;
+	int	i;
+	int	is_gonna_die;
 
 	is_gonna_die = 0;
 	while (!is_gonna_die)
@@ -78,9 +78,8 @@ void	ft_die(t_data *data)
 		i = -1;
 		while (++i < data->num_philos)
 		{
-			if (are_starved(data) || are_fed(data))
+			if (are_starved(data, i) || (data->meals_flag && are_fed(data)))
 			{
-				
 				is_gonna_die = 1;
 				set_end_flag(data);
 				if (data->all_fed)
@@ -89,12 +88,21 @@ void	ft_die(t_data *data)
 				return ;
 			}
 		}
-		ft_usleep(500);
+		ft_usleep(5);
 	}
 }
 
 void	start_dining(t_data *data)
 {
-	create_thread(data);
-	ft_die(data);
+	if (data->num_philos == 1)
+	{
+		if (pthread_create(&data->all_philos[0].tid, NULL, &one_philo_routine, &data->all_philos[0]) != 0)
+			printf("Failed to create thread.\n");
+	}
+	else
+	{
+		create_thread(data);
+		ft_die(data);
+	}
+	return ;
 }

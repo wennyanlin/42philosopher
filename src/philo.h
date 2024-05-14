@@ -6,7 +6,7 @@
 /*   By: wlin <wlin@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 15:08:22 by wlin              #+#    #+#             */
-/*   Updated: 2024/05/11 18:57:17 by wlin             ###   ########.fr       */
+/*   Updated: 2024/05/14 13:39:14 by wlin             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,7 @@ typedef struct s_data
 	long			time_to_eat;
 	long			time_to_sleep;
 	int				num_meals;
+	int				meals_flag;
 	long			start_at;
 	int				end_flag;
 	int				all_fed;
@@ -74,5 +75,6 @@ void	ft_usleep(long millisec);
 void	ft_printf(t_philo *rule, char *message, long curr_time);
 void	ft_ntb_printf(t_philo *philo, char *message, long curr_time, int tbontb);
 void	ft_end_printf(t_data *data);
+void	*one_philo_routine(void *data);
 
 #endif

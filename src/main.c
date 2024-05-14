@@ -6,7 +6,7 @@
 /*   By: wlin <wlin@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 15:23:58 by wlin              #+#    #+#             */
-/*   Updated: 2024/05/11 18:30:19 by wlin             ###   ########.fr       */
+/*   Updated: 2024/05/12 20:45:47 by wlin             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,8 +60,12 @@ int	get_all_philos_rules(t_data *data, int argc, char **args)
 	data->time_to_sleep = ft_atoi(args[4]);
 	data->end_flag = 0;
 	data->all_fed = 0;
+	data->meals_flag = 0;
 	if (argc == 6)
+	{
 		data->num_meals = ft_atoi(args[5]);///TODO: handle if this value is not set!
+		data->meals_flag = 1;
+	}
 	data->all_philos = malloc(sizeof(t_philo) * (data->num_philos));
 	if (!data->all_philos)
 		return (2);
