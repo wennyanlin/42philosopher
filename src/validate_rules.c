@@ -6,7 +6,7 @@
 /*   By: wlin <wlin@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 17:03:09 by wlin              #+#    #+#             */
-/*   Updated: 2024/04/25 11:23:06 by wlin             ###   ########.fr       */
+/*   Updated: 2024/05/16 17:52:13 by wlin             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ int	is_number(char *arg)
 	return (TRUE);
 }
 
-int	validate_args(int argc, char **argv)
+int	validate_dining_rules(int argc, char **argv)
 {
 	int	i;
 

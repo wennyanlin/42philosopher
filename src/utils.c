@@ -6,7 +6,7 @@
 /*   By: wlin <wlin@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 15:52:40 by wlin              #+#    #+#             */
-/*   Updated: 2024/05/12 20:14:36 by wlin             ###   ########.fr       */
+/*   Updated: 2024/05/16 18:06:17 by wlin             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,3 +38,21 @@ void	ft_ntb_printf(t_philo *philo, char *message, long curr_time, int tbontb)
 	}
 	pthread_mutex_unlock(philo->data->mx_end);
 }
+
+long	ft_time(void)
+{
+	struct timeval	tv;
+
+	gettimeofday(&tv, NULL);
+	return ((tv.tv_sec * 1000) + (tv.tv_usec / 1000));
+}
+
+void	ft_usleep(long millisec)
+{
+	long	end;
+
+	end = ft_time() + millisec;
+	while (ft_time() < end)
+		usleep(200);
+}
+
