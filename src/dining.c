@@ -6,7 +6,7 @@
 /*   By: wlin <wlin@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/17 15:53:57 by wlin              #+#    #+#             */
-/*   Updated: 2024/05/17 18:21:27 by wlin             ###   ########.fr       */
+/*   Updated: 2024/05/17 21:14:56 by wlin             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,14 +56,10 @@ pthread_mutex_t	*dining_prepare(t_data *data, int argc, char **args)
 		data->num_meals = ft_atoi(args[5]);
 		data->has_meal_limit = TRUE;
 	}
-	data->mx_printf = malloc(sizeof(pthread_mutex_t));
-	data->mx_end = malloc(sizeof(pthread_mutex_t));
-	data->mx_info = malloc(sizeof(pthread_mutex_t));
-	if (!data->mx_end || !data->mx_info || !data->mx_printf)
-		return (NULL);
 	pthread_mutex_init(data->mx_printf, NULL);
 	pthread_mutex_init(data->mx_end, NULL);
 	pthread_mutex_init(data->mx_info, NULL);
+	//pthread_mutex_lock(data->mx_info);
 	all_forks = philo_prepare(data);
 	return (all_forks);
 }
