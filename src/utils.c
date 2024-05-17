@@ -6,7 +6,7 @@
 /*   By: wlin <wlin@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 15:52:40 by wlin              #+#    #+#             */
-/*   Updated: 2024/05/17 15:47:20 by wlin             ###   ########.fr       */
+/*   Updated: 2024/05/17 18:27:30 by wlin             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,6 @@ void	ft_end_printf(t_data *data)
 void	ft_printf(t_philo *philo, char *message, long curr_time)
 {
 	ft_ntb_printf(philo, message, curr_time, TB);
-	
 }
 
 void	ft_ntb_printf(t_philo *philo, char *message, long curr_time, int tbontb)
@@ -33,7 +32,8 @@ void	ft_ntb_printf(t_philo *philo, char *message, long curr_time, int tbontb)
 	if (!tbontb || !philo->data->end_flag)
 	{
 		pthread_mutex_lock(philo->data->mx_printf);
-		printf("[%ld ms] Philo #%d %s\n", curr_time - philo->data->start_at, philo->id, message);
+		printf("[%ld ms] #%d %s\n", curr_time - philo->data->start_at,
+			philo->id, message);
 		pthread_mutex_unlock(philo->data->mx_printf);
 	}
 	pthread_mutex_unlock(philo->data->mx_end);

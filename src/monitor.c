@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   dining.c                                           :+:      :+:    :+:   */
+/*   monitor.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: wlin <wlin@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/29 14:17:19 by wlin              #+#    #+#             */
-/*   Updated: 2024/05/17 15:48:17 by wlin             ###   ########.fr       */
+/*   Updated: 2024/05/17 18:41:27 by wlin             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,6 @@ void	monitor(t_data *data)
 				return ;
 			}
 		}
-		ft_usleep(5);
 	}
 }
 
@@ -85,8 +84,10 @@ void	simulation(t_data *data)
 	while (++i < data->num_philos)
 	{
 		data->all_philos[i].ate_at = ft_time();
+		if (data->all_philos[i].id % 2 == 0)
+			ft_usleep(10);
 		if (pthread_create(&data->all_philos[i].tid, NULL, &routine,
-			&data->all_philos[i]) != 0)
+				&data->all_philos[i]) != 0)
 		{
 			printf("Failed to create thread.\n");
 			return ;

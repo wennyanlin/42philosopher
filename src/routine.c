@@ -6,7 +6,7 @@
 /*   By: wlin <wlin@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/29 13:53:52 by wlin              #+#    #+#             */
-/*   Updated: 2024/05/16 18:07:18 by wlin             ###   ########.fr       */
+/*   Updated: 2024/05/17 18:02:28 by wlin             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ void	*routine(void *data)
 void	*one_philo_routine(void *data)
 {
 	t_philo	*philo;
-	
+
 	philo = (t_philo *)data;
 	philo->data->start_at = ft_time();
 	ft_printf(philo, "has taken a left fork", ft_time());

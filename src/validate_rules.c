@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   input_validate.c                                   :+:      :+:    :+:   */
+/*   validate_rules.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: wlin <wlin@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 17:03:09 by wlin              #+#    #+#             */
-/*   Updated: 2024/05/16 17:52:13 by wlin             ###   ########.fr       */
+/*   Updated: 2024/05/17 18:27:51 by wlin             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ int	validate_dining_rules(int argc, char **argv)
 		if (!argv[i])
 			return (FALSE);
 		if (!is_number(argv[i]) || ft_atoi(argv[i]) > MAX_INT
-				|| ft_atoi(argv[i]) <= 0)
+			|| ft_atoi(argv[i]) <= 0)
 			return (FALSE);
 		i++;
 	}

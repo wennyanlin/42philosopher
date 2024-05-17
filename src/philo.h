@@ -6,25 +6,20 @@
 /*   By: wlin <wlin@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 15:08:22 by wlin              #+#    #+#             */
-/*   Updated: 2024/05/17 16:09:39 by wlin             ###   ########.fr       */
+/*   Updated: 2024/05/17 18:27:10 by wlin             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PHILO_H
 # define PHILO_H
 
-#include <stdlib.h>
-#include <stdio.h>
-#include <unistd.h>
-#include <pthread.h>
-#include <sys/time.h>
-#include <string.h>
+# include <stdlib.h>
+# include <stdio.h>
+# include <unistd.h>
+# include <pthread.h>
+# include <sys/time.h>
+# include <string.h>
 
-# define NC	"\e[0m"
-# define YELLOW	"\e[33m"
-# define BYELLOW	"\e[1;33m"
-# define RED	"\e[31m"
-# define GREEN	"\e[32m"
 # define TRUE 1
 # define FALSE 0
 # define MAX_INT 2147483647
@@ -32,7 +27,7 @@
 # define TB 1
 
 /*##################################STRUCT####################################*/
-typedef struct s_data t_data;
+typedef struct s_data	t_data;
 
 typedef struct s_philo
 {
@@ -83,9 +78,9 @@ long			ft_time(void);
 void			ft_usleep(long millisec);
 void			ft_printf(t_philo *rule, char *message, long curr_time);
 void			ft_ntb_printf(t_philo *philo, char *message, long curr_time,
-				int tbontb);
+					int tbontb);
 void			ft_end_printf(t_data *data);
 void			clean_up(t_data *data, pthread_mutex_t *all_forks);
-void			write_error();
+void			write_error(char *message);
 
 #endif

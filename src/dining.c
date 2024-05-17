@@ -6,7 +6,7 @@
 /*   By: wlin <wlin@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/17 15:53:57 by wlin              #+#    #+#             */
-/*   Updated: 2024/05/17 16:10:52 by wlin             ###   ########.fr       */
+/*   Updated: 2024/05/17 18:21:27 by wlin             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ pthread_mutex_t	*philo_prepare(t_data *data)
 {
 	int					i;
 	pthread_mutex_t		*all_forks;
-	
+
 	data->all_philos = malloc(sizeof(t_philo) * (data->num_philos));
 	all_forks = malloc(sizeof(pthread_mutex_t) * data->num_philos);
 	if (!all_forks || !data->all_philos)
@@ -42,7 +42,7 @@ pthread_mutex_t	*philo_prepare(t_data *data)
 pthread_mutex_t	*dining_prepare(t_data *data, int argc, char **args)
 {
 	pthread_mutex_t	*all_forks;
-	
+
 	data->num_philos = ft_atoi(args[1]);
 	data->time_to_die = ft_atoi(args[2]);
 	data->time_to_eat = ft_atoi(args[3]);
