@@ -5,107 +5,65 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: wlin <wlin@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/04/29 14:17:19 by wlin              #+#    #+#             */
-/*   Updated: 2024/05/16 18:09:37 by wlin             ###   ########.fr       */
+/*   Created: 2024/05/17 15:53:57 by wlin              #+#    #+#             */
+/*   Updated: 2024/05/17 16:10:52 by wlin             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-void	set_end_flag(t_data *data)
+pthread_mutex_t	*philo_prepare(t_data *data)
 {
-	pthread_mutex_lock(data->mx_end);
-	data->end_flag = 1;
-	pthread_mutex_unlock(data->mx_end);
-}
-
-int	are_fed(t_data *data)
-{
-	int	i;
-	int	num_meals;
-
+	int					i;
+	pthread_mutex_t		*all_forks;
+	
+	data->all_philos = malloc(sizeof(t_philo) * (data->num_philos));
+	all_forks = malloc(sizeof(pthread_mutex_t) * data->num_philos);
+	if (!all_forks || !data->all_philos)
+		return (NULL);
+	i = -1;
+	while (++i < data->num_philos)
+		pthread_mutex_init(&all_forks[i], NULL);
 	i = -1;
 	while (++i < data->num_philos)
 	{
-		pthread_mutex_lock(data->mx_info);
-		num_meals = data->all_philos[i].num_meals;
-		pthread_mutex_unlock(data->mx_info);
-		if (num_meals != 0)
-			return (0);
+		data->all_philos[i].id = i + 1;
+		data->all_philos[i].num_meals = data->num_meals;
+		data->all_philos[i].left_fork = &all_forks[i];
+		if (i == data->num_philos - 1)
+			data->all_philos[i].right_fork = &all_forks[0];
+		else
+			data->all_philos[i].right_fork = &all_forks[i + 1];
+		data->all_philos[i].data = data;
 	}
-	data->all_fed = 1;
-	return (1);
+	return (all_forks);
 }
 
-int	are_starved(t_data *data, int i)
+pthread_mutex_t	*dining_prepare(t_data *data, int argc, char **args)
 {
-	long	time_to_die;
-	long	ate_at;
-
-	pthread_mutex_lock(data->mx_info);
-	time_to_die = data->time_to_die;
-	ate_at = data->all_philos[i].ate_at;
-	pthread_mutex_unlock(data->mx_info);
-	if ((ft_time() - ate_at) > time_to_die)
-		return (1);
-	return (0);
-}
-
-void	monitor(t_data *data)
-{
-	int	i;
-	int	is_gonna_die;
-
-	is_gonna_die = 0;
-	while (!is_gonna_die)
+	pthread_mutex_t	*all_forks;
+	
+	data->num_philos = ft_atoi(args[1]);
+	data->time_to_die = ft_atoi(args[2]);
+	data->time_to_eat = ft_atoi(args[3]);
+	data->time_to_sleep = ft_atoi(args[4]);
+	data->num_meals = 0;
+	data->end_flag = 0;
+	data->all_fed = FALSE;
+	data->has_meal_limit = FALSE;
+	if (argc == 6)
 	{
-		i = -1;
-		while (++i < data->num_philos)
-		{
-			if (are_starved(data, i) || (data->meals_flag && are_fed(data)))
-			{
-				is_gonna_die = 1;
-				set_end_flag(data);
-				if (data->all_fed)
-					return (ft_end_printf(data));
-				ft_ntb_printf(&data->all_philos[i], "died", ft_time(), NTB);
-				return ;
-			}
-		}
-		ft_usleep(5);
+		data->num_meals = ft_atoi(args[5]);
+		data->has_meal_limit = TRUE;
 	}
-}
-
-void	simulation(t_data *data)
-{
-	int	i;
-
-	i = -1;
-	data->start_at = ft_time();
-	while (++i < data->num_philos)
-	{
-		data->all_philos[i].ate_at = ft_time();
-		if (pthread_create(&data->all_philos[i].tid, NULL, &routine,
-			&data->all_philos[i]) != 0)
-		{
-			printf("Failed to create thread.\n");
-			return ;
-		}
-	}
-}
-
-void	dining_start(t_data *data)
-{
-	if (data->num_philos == 1)
-	{
-		if (pthread_create(&data->all_philos[0].tid, NULL, &one_philo_routine,
-			&data->all_philos[0]) != 0)
-			printf("Failed to create thread.\n");
-	}
-	else
-	{
-		simulation(data);
-		monitor(data);
-	}
-	return ;
+	data->mx_printf = malloc(sizeof(pthread_mutex_t));
+	data->mx_end = malloc(sizeof(pthread_mutex_t));
+	data->mx_info = malloc(sizeof(pthread_mutex_t));
+	if (!data->mx_end || !data->mx_info || !data->mx_printf)
+		return (NULL);
+	pthread_mutex_init(data->mx_printf, NULL);
+	pthread_mutex_init(data->mx_end, NULL);
+	pthread_mutex_init(data->mx_info, NULL);
+	all_forks = philo_prepare(data);
+	return (all_forks);
 }

@@ -6,7 +6,7 @@
 #    By: wlin <wlin@student.42.fr>                  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/04/24 14:59:21 by wlin              #+#    #+#              #
-#    Updated: 2024/05/17 13:47:58 by wlin             ###   ########.fr        #
+#    Updated: 2024/05/17 15:56:29 by wlin             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,10 +17,10 @@ SRC_DIR		:=	src
 
 SRC_FILES	:=	$(SRC_DIR)/main.c \
 				$(SRC_DIR)/validate_rules.c \
-				$(SRC_DIR)/dining.c \
+				$(SRC_DIR)/monitor.c \
 				$(SRC_DIR)/routine.c \
 				$(SRC_DIR)/utils.c \
-				$(SRC_DIR)/clean_up.c \
+				$(SRC_DIR)/dining.c \
 
 OBJ_FILES	=	$(SRC_FILES:.c=.o)
 DEP_FILES	=	$(OBJ_FILES:.o=.d)

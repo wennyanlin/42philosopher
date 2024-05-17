@@ -6,7 +6,7 @@
 /*   By: wlin <wlin@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 15:08:22 by wlin              #+#    #+#             */
-/*   Updated: 2024/05/17 13:41:52 by wlin             ###   ########.fr       */
+/*   Updated: 2024/05/17 16:09:39 by wlin             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@
 # define NTB 0
 # define TB 1
 
+/*##################################STRUCT####################################*/
 typedef struct s_data t_data;
 
 typedef struct s_philo
@@ -51,7 +52,7 @@ typedef struct s_data
 	long			time_to_eat;
 	long			time_to_sleep;
 	int				num_meals;
-	int				meals_flag;
+	int				has_meal_limit;
 	long			start_at;
 	int				end_flag;
 	int				all_fed;
@@ -61,21 +62,30 @@ typedef struct s_data
 	pthread_mutex_t	*mx_end;
 }	t_data;
 
-int		validate_dining_rules(int argc, char **argv);
-long	ft_atoi(const char *str);
-int		is_number(char *arg);
-// void	get_dining_rules(int argc, char **args, t_philo *rule);
-void	dining_start(t_data *data);
+/*#################################FUNCTION###################################*/
+//VALIDATE INPUT
+int				validate_dining_rules(int argc, char **argv);
+long			ft_atoi(const char *str);
+int				is_number(char *arg);
+//SET UP STRUCT
+pthread_mutex_t	*dining_prepare(t_data *data, int argc, char **args);
 pthread_mutex_t	*philo_prepare(t_data *data);
-void	*routine(void *data);
-void	ft_eating(t_philo *rule);
-long	ft_time(void);
-void	monitor(t_data *data);
-void	ft_usleep(long millisec);
-void	ft_printf(t_philo *rule, char *message, long curr_time);
-void	ft_ntb_printf(t_philo *philo, char *message, long curr_time, int tbontb);
-void	ft_end_printf(t_data *data);
-void	*one_philo_routine(void *data);
-void    clean_up(t_data *data, pthread_mutex_t *all_forks);
+//MAIN THREAD
+void			simulation(t_data *data);
+void			monitor(t_data *data);
+void			dining_start(t_data *data);
+//ROUTINE
+void			*routine(void *data);
+void			*one_philo_routine(void *data);
+void			ft_eating(t_philo *rule);
+//UTILS
+long			ft_time(void);
+void			ft_usleep(long millisec);
+void			ft_printf(t_philo *rule, char *message, long curr_time);
+void			ft_ntb_printf(t_philo *philo, char *message, long curr_time,
+				int tbontb);
+void			ft_end_printf(t_data *data);
+void			clean_up(t_data *data, pthread_mutex_t *all_forks);
+void			write_error();
 
 #endif
