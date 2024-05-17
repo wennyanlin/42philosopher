@@ -6,7 +6,7 @@
 /*   By: wlin <wlin@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 15:08:22 by wlin              #+#    #+#             */
-/*   Updated: 2024/05/14 13:39:14 by wlin             ###   ########.fr       */
+/*   Updated: 2024/05/17 13:41:52 by wlin             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,20 +61,21 @@ typedef struct s_data
 	pthread_mutex_t	*mx_end;
 }	t_data;
 
-int		validate_args(int argc, char **argv);
+int		validate_dining_rules(int argc, char **argv);
 long	ft_atoi(const char *str);
 int		is_number(char *arg);
 // void	get_dining_rules(int argc, char **args, t_philo *rule);
-void	start_dining(t_data *data);
-void	struct_copy(t_data *data, pthread_mutex_t *threads);
+void	dining_start(t_data *data);
+pthread_mutex_t	*philo_prepare(t_data *data);
 void	*routine(void *data);
 void	ft_eating(t_philo *rule);
 long	ft_time(void);
-void	ft_die(t_data *data);
+void	monitor(t_data *data);
 void	ft_usleep(long millisec);
 void	ft_printf(t_philo *rule, char *message, long curr_time);
 void	ft_ntb_printf(t_philo *philo, char *message, long curr_time, int tbontb);
 void	ft_end_printf(t_data *data);
 void	*one_philo_routine(void *data);
+void    clean_up(t_data *data, pthread_mutex_t *all_forks);
 
 #endif
