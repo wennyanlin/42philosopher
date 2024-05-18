@@ -6,7 +6,7 @@
 /*   By: wlin <wlin@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 15:08:22 by wlin              #+#    #+#             */
-/*   Updated: 2024/05/17 18:27:10 by wlin             ###   ########.fr       */
+/*   Updated: 2024/05/18 12:10:27 by wlin             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,8 @@ typedef struct s_philo
 	long			ate_at;
 	pthread_mutex_t	*left_fork;
 	pthread_mutex_t	*right_fork;
+	pthread_mutex_t	mtx_meal;
+	pthread_mutex_t	mtx_time;
 	t_data			*data;
 }	t_philo;
 
@@ -52,9 +54,9 @@ typedef struct s_data
 	int				end_flag;
 	int				all_fed;
 	t_philo			*all_philos;
-	pthread_mutex_t	*mx_info;
-	pthread_mutex_t	*mx_printf;
-	pthread_mutex_t	*mx_end;
+	pthread_mutex_t	mtx_info;
+	pthread_mutex_t	mtx_printf;
+	pthread_mutex_t	mtx_end;
 }	t_data;
 
 /*#################################FUNCTION###################################*/

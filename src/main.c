@@ -6,7 +6,7 @@
 /*   By: wlin <wlin@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 15:23:58 by wlin              #+#    #+#             */
-/*   Updated: 2024/05/17 21:16:54 by wlin             ###   ########.fr       */
+/*   Updated: 2024/05/18 12:50:33 by wlin             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,18 +24,16 @@ void	clean_up(t_data *data, pthread_mutex_t *all_forks)
 	i = -1;
 	while (++i < data->num_philos)
 		pthread_mutex_destroy(data->all_philos[i].left_fork);
-	pthread_mutex_destroy(data->mx_end);
-	pthread_mutex_destroy(data->mx_info);
-	pthread_mutex_destroy(data->mx_printf);
+	pthread_mutex_destroy(&(data->mtx_end));
+	pthread_mutex_destroy(&(data->mtx_info));
+	pthread_mutex_destroy(&(data->mtx_printf));
 	free(data->all_philos);
 	free(all_forks);
-	free(data->mx_end);
-	free(data->mx_info);
-	free(data->mx_printf);
 }
 
 void	dining_start(t_data *data)
 {
+	data->start_at = ft_time();
 	if (data->num_philos == 1)
 	{
 		if (pthread_create(&data->all_philos[0].tid, NULL, &one_philo_routine,
@@ -45,8 +43,7 @@ void	dining_start(t_data *data)
 	else
 	{
 		simulation(data);
-		//pthread_mutex_unlock(data->mx_info);
-		// data->start_at = ft_time();
+		// pthread_mutex_unlock(&data->mtx_info);
 		monitor(data);
 	}
 	return ;

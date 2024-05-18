@@ -6,7 +6,7 @@
 /*   By: wlin <wlin@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/29 14:17:19 by wlin              #+#    #+#             */
-/*   Updated: 2024/05/17 18:41:27 by wlin             ###   ########.fr       */
+/*   Updated: 2024/05/18 12:49:14 by wlin             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,9 @@
 
 void	set_end_flag(t_data *data)
 {
-	pthread_mutex_lock(data->mx_end);
+	pthread_mutex_lock(&data->mtx_end);
 	data->end_flag = TRUE;
-	pthread_mutex_unlock(data->mx_end);
+	pthread_mutex_unlock(&data->mtx_end);
 }
 
 int	are_fed(t_data *data)
@@ -27,9 +27,9 @@ int	are_fed(t_data *data)
 	i = -1;
 	while (++i < data->num_philos)
 	{
-		pthread_mutex_lock(data->mx_info);
+		pthread_mutex_lock(&data->all_philos[i].mtx_meal);
 		num_meals = data->all_philos[i].num_meals;
-		pthread_mutex_unlock(data->mx_info);
+		pthread_mutex_unlock(&data->all_philos[i].mtx_meal);
 		if (num_meals != 0)
 			return (FALSE);
 	}
@@ -42,10 +42,10 @@ int	are_starved(t_data *data, int i)
 	long	time_to_die;
 	long	ate_at;
 
-	pthread_mutex_lock(data->mx_info);
 	time_to_die = data->time_to_die;
+	pthread_mutex_lock(&data->all_philos[i].mtx_time);
 	ate_at = data->all_philos[i].ate_at;
-	pthread_mutex_unlock(data->mx_info);
+	pthread_mutex_unlock(&data->all_philos[i].mtx_time);
 	if ((ft_time() - ate_at) > time_to_die)
 		return (TRUE);
 	return (FALSE);
@@ -80,10 +80,12 @@ void	simulation(t_data *data)
 	int	i;
 
 	i = -1;
-	data->start_at = ft_time();
+	// data->start_at = ft_time();
 	while (++i < data->num_philos)
 	{
-		data->all_philos[i].ate_at = ft_time();
+		pthread_mutex_lock(&data->all_philos[i].mtx_time);
+		data->all_philos[i].ate_at = ft_time(); //handle first time eating while main thread is checking if died
+		pthread_mutex_unlock(&data->all_philos[i].mtx_time);
 		if (data->all_philos[i].id % 2 == 0)
 			ft_usleep(10);
 		if (pthread_create(&data->all_philos[i].tid, NULL, &routine,

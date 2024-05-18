@@ -6,7 +6,7 @@
 /*   By: wlin <wlin@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/17 15:53:57 by wlin              #+#    #+#             */
-/*   Updated: 2024/05/17 21:14:56 by wlin             ###   ########.fr       */
+/*   Updated: 2024/05/18 12:47:30 by wlin             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,8 @@ pthread_mutex_t	*philo_prepare(t_data *data)
 		data->all_philos[i].id = i + 1;
 		data->all_philos[i].num_meals = data->num_meals;
 		data->all_philos[i].left_fork = &all_forks[i];
+		pthread_mutex_init(&data->all_philos[i].mtx_meal, NULL);
+		pthread_mutex_init(&data->all_philos[i].mtx_time, NULL);
 		if (i == data->num_philos - 1)
 			data->all_philos[i].right_fork = &all_forks[0];
 		else
@@ -56,10 +58,10 @@ pthread_mutex_t	*dining_prepare(t_data *data, int argc, char **args)
 		data->num_meals = ft_atoi(args[5]);
 		data->has_meal_limit = TRUE;
 	}
-	pthread_mutex_init(data->mx_printf, NULL);
-	pthread_mutex_init(data->mx_end, NULL);
-	pthread_mutex_init(data->mx_info, NULL);
-	//pthread_mutex_lock(data->mx_info);
+	pthread_mutex_init(&(data->mtx_printf), NULL);
+	pthread_mutex_init(&(data->mtx_end), NULL);
+	pthread_mutex_init(&(data->mtx_info), NULL);
+	// pthread_mutex_lock(&data->mtx_info);
 	all_forks = philo_prepare(data);
 	return (all_forks);
 }
