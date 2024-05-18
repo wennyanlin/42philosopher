@@ -6,7 +6,7 @@
 /*   By: wlin <wlin@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/29 14:17:19 by wlin              #+#    #+#             */
-/*   Updated: 2024/05/18 12:49:14 by wlin             ###   ########.fr       */
+/*   Updated: 2024/05/18 17:52:21 by wlin             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,11 +80,10 @@ void	simulation(t_data *data)
 	int	i;
 
 	i = -1;
-	// data->start_at = ft_time();
 	while (++i < data->num_philos)
 	{
 		pthread_mutex_lock(&data->all_philos[i].mtx_time);
-		data->all_philos[i].ate_at = ft_time(); //handle first time eating while main thread is checking if died
+		data->all_philos[i].ate_at = ft_time();
 		pthread_mutex_unlock(&data->all_philos[i].mtx_time);
 		if (data->all_philos[i].id % 2 == 0)
 			ft_usleep(10);

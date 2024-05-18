@@ -6,7 +6,7 @@
 /*   By: wlin <wlin@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 17:03:09 by wlin              #+#    #+#             */
-/*   Updated: 2024/05/17 18:27:51 by wlin             ###   ########.fr       */
+/*   Updated: 2024/05/18 17:51:31 by wlin             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,5 +72,7 @@ int	validate_dining_rules(int argc, char **argv)
 			return (FALSE);
 		i++;
 	}
+	if (ft_atoi(argv[1]) > 200)
+		return (FALSE);
 	return (TRUE);
 }

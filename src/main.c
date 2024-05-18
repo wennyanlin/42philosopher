@@ -6,7 +6,7 @@
 /*   By: wlin <wlin@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 15:23:58 by wlin              #+#    #+#             */
-/*   Updated: 2024/05/18 12:50:33 by wlin             ###   ########.fr       */
+/*   Updated: 2024/05/18 17:40:37 by wlin             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,6 @@ void	dining_start(t_data *data)
 	else
 	{
 		simulation(data);
-		// pthread_mutex_unlock(&data->mtx_info);
 		monitor(data);
 	}
 	return ;

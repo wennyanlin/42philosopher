@@ -6,7 +6,7 @@
 /*   By: wlin <wlin@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/29 13:53:52 by wlin              #+#    #+#             */
-/*   Updated: 2024/05/18 12:48:16 by wlin             ###   ########.fr       */
+/*   Updated: 2024/05/18 17:40:33 by wlin             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,8 +57,6 @@ void	*routine(void *data)
 	t_philo	*philo;
 
 	philo = (t_philo *)data;
-	// pthread_mutex_lock(&philo->data->mtx_info);
-	// pthread_mutex_unlock(&philo->data->mtx_info);
 	while (get_end_flag(philo->data) == 0)
 	{
 		ft_eating(philo);

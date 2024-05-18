@@ -6,7 +6,7 @@
 /*   By: wlin <wlin@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/17 15:53:57 by wlin              #+#    #+#             */
-/*   Updated: 2024/05/18 12:47:30 by wlin             ###   ########.fr       */
+/*   Updated: 2024/05/18 17:40:41 by wlin             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,6 @@ pthread_mutex_t	*dining_prepare(t_data *data, int argc, char **args)
 	pthread_mutex_init(&(data->mtx_printf), NULL);
 	pthread_mutex_init(&(data->mtx_end), NULL);
 	pthread_mutex_init(&(data->mtx_info), NULL);
-	// pthread_mutex_lock(&data->mtx_info);
 	all_forks = philo_prepare(data);
 	return (all_forks);
 }
